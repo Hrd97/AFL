@@ -15,3 +15,5 @@ class Project(db.Model):
     uploadtime=db.Column(db.DATE)
     name = db.Column(db.VARCHAR(100))
     status = db.Column(db.VARCHAR(100))
+    visibility = db.Column(db.CHAR(1))
+    path = db.Column(db.VARCHAR(300))

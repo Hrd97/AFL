@@ -5,13 +5,17 @@ import app
 from . import bp_users
 import datetime
 from ..model import db, User, Project
+import os
 
-
+basedir = os.path.abspath(os.path.dirname(__file__))
+maindir = os.path.dirname(basedir)
+projectdir= os.path.dirname(basedir)+"/projectfile"
+dt = datetime.datetime.now().strftime("%Y-%m-%d")
 @bp_users.route('/users/homepage', methods=['GET', 'POST'])
 def homepage():
     dt = datetime.datetime.now().strftime("%Y-%m-%d")
-    print("here111")
-    print(session["user_id"])
+    # print("here111")
+    # print(session["user_id"])
     user = User.query.filter(User.id == session["user_id"]).first()
     projects = Project.query.filter(User.id == session["user_id"]).all()
 
@@ -22,8 +26,61 @@ def homepage():
     #     return render_template('users/login.html', reservations=reservations, user=user, notice=notice)
 
 
+
+@bp_users.route('/users/newproject', methods=['POST'])
+def new():
+    pname = request.form["pname"]
+    print(pname)
+
+    file_path = projectdir + "/" + str(session["user_id"]) + "/" +pname #保存路径
+    print(file_path)
+    os.mkdir(file_path)
+    print("ok?")
+    return redirect(url_for('users.homepage'))
+
+
+
+
 @bp_users.route('/users/new', methods=['POST'])
 def newproject():
+
+    pname = request.form["pname"]
+    pfile = request.files["pfile"]
+    print(pname)
+    print(basedir)
+#    print(pfile)
+    '''
+    解压部分，不过解压后的目录着实难受
+    '''
+    os.system(
+        'unzip -d /Users/darihan/Desktop/AFL/app/projectfile/1/haha /Users/darihan/Desktop/AFL/app/projectfile/1/1-191105215T9.zip')
+
+    '''
+    这部分是还未成型的判断重复
+    '''
+    if Project.query.filter(Project.name == pname).first() is not None:
+        print("duplicate")
+
+
+    pName = pfile.filename
+
+    print(pName)
+
+
+    file_path = projectdir + "/" + str(session["user_id"]) + "/" +pName #保存路径
+
+    pfile.save(file_path) #保存到本地
+
+    os.system('mkdir pname')
+
+    '''
+    保存到数据库
+    '''
+
+    db.session.add(Project(name=pname, userid=session["user_id"], status="initial", visibility=0,path=file_path,
+                           uploadtime=dt))
+    db.session.commit()
+
     return redirect(url_for('users.homepage'))
 
 

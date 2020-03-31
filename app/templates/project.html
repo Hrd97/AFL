@@ -19,8 +19,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-    <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="assets/css/style.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
@@ -184,8 +182,8 @@
         <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="./"><img src="images/logo.png" alt="Logo"></a>
-                    <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
+                    <a class="navbar-brand" href="./"><img src="../../static/images/logo.png" alt="Logo"></a>
+                    <a class="navbar-brand hidden" href="./"><img src="../../static/images/logo2.png" alt="Logo"></a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
             </div>
@@ -230,7 +228,7 @@
                             <div class="dropdown-menu" aria-labelledby="message">
                                 <p class="red">You have 4 Mails</p>
                                 <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
+                                    <span class="photo media-left"><img alt="avatar" src="../../static/images/avatar/1.jpg"></span>
                                     <div class="message media-body">
                                         <span class="name float-left">Jonathan Smith</span>
                                         <span class="time float-right">Just now</span>
@@ -238,7 +236,7 @@
                                     </div>
                                 </a>
                                 <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/2.jpg"></span>
+                                    <span class="photo media-left"><img alt="avatar" src="../../static/images/avatar/2.jpg"></span>
                                     <div class="message media-body">
                                         <span class="name float-left">Jack Sanders</span>
                                         <span class="time float-right">5 minutes ago</span>
@@ -246,7 +244,7 @@
                                     </div>
                                 </a>
                                 <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/3.jpg"></span>
+                                    <span class="photo media-left"><img alt="avatar" src="../../static/images/avatar/3.jpg"></span>
                                     <div class="message media-body">
                                         <span class="name float-left">Cheryl Wheeler</span>
                                         <span class="time float-right">10 minutes ago</span>
@@ -254,7 +252,7 @@
                                     </div>
                                 </a>
                                 <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/4.jpg"></span>
+                                    <span class="photo media-left"><img alt="avatar" src="../../static/images/avatar/4.jpg"></span>
                                     <div class="message media-body">
                                         <span class="name float-left">Rachel Santos</span>
                                         <span class="time float-right">15 minutes ago</span>
@@ -267,7 +265,7 @@
 
                     <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                            <img class="user-avatar rounded-circle" src="../../static/images/admin.jpg" alt="User Avatar">
                         </a>
 
                         <div class="user-menu dropdown-menu">
@@ -312,15 +310,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                            <td class="serial">1.</td>
-                                            <td>  <span class="name">AFLTEST</span> </td>
-                                            <td>  <span class="days">2020-1-2</span> </td>
-                                            <td>  <span class="name">Running</span></td>
+                                    {% for project in projects %}
+                                        <tr>
+                                            <td >{{loop.index}}</td>
+                                            <td><span class="name">{{project.name}}</span></td>
+                                            <td><span class="days">{{project.uploadtime}}</span></td>
+                                            <td><span class="name">{{project.status}}</span></td>
                                             <td>
                                                 <button type="button" class="badge badge-complete" >
                                                 RESULT
                                                 </button>
+                                            </td>
                                             <td>
                                                 <button type="button" class="badge badge-complete" data-toggle="modal" data-target="#runModal">
                                                 RUN
@@ -331,31 +331,8 @@
                                                 DELETE
                                                 </button>
                                             </td>
-
                                         </tr>
-                                        {% for project in projects %}
-                                            <tr>
-                                                <td class="serial">{{loop.index}}</td>
-                                                <td><span class="name">{{project.name}}</span></td>
-                                                <td><span class="days">{{project.uploadtime}}</span></td>
-                                                <td><span class="name">{{project.status}}</span></td>
-                                                <td>
-                                                    <button type="button" class="badge badge-complete" >
-                                                    RESULT
-                                                    </button>
-                                                <td>
-                                                <td>
-                                                    <button type="button" class="badge badge-complete" data-toggle="modal" data-target="#runModal">
-                                                    RUN
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="badge badge-complete" style="background-color: #bb0000" data-toggle="modal" data-target="#deleteModal">
-                                                    DELETE
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
+                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </div> <!-- /.table-stats -->
@@ -373,62 +350,30 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                                <form action="" id="11" class="form-horizontal" method="post">
+                                <form action="{{url_for('users.new')}}" class="form-horizontal" method="post" enctype="multipart/form-data" >
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <div>
-                                                <label for="add-name1" class="control-label col-xs-4" style="width:20%">
+                                                <label  class="control-label col-xs-4" style="width:20%">
                                                     Project Name:
                                                 </label>
-                                                <input type="text" name="add_name" id="add-name1" class="" style="width: 40%"/>
+                                                <input type="text" name="pname" id="pname" class="" style="width: 40%"/>
                                             </div>
                                             <div>
                                             <label class="control-label col-xs-4" style="width:20%">
                                                 Project File:
                                             </label>
-                                            <input type="file" id="file" multiple="multiple" accept=".zip" onchange="handleFile()">
+{#                                            <input type="file" name="pfile" multiple="multiple" accept=".zip" onchange="handleFile()">#}
                                             </div>
                                         </div>
                                     </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Confirm</button>
+                                </div>
                                 </form>
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary">Confirm</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
-                <div class="modal-dialog " role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="testModalLabel">New project</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                                <form action="" id="12" class="form-horizontal" method="post">
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <div>
-                                                <label for="add-name1" class="control-label col-xs-4" style="width:20%">
-                                                    Project ？:
-                                                </label>
-                                                <input type="text" name="add_name" id="add-na2" class="" style="width: 40%"/>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </form>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary">Confirm</button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -442,7 +387,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                                <form action="" id="run" class="form-horizontal" method="post">
+                                <form action="{{ url_for('users.run') }}" id="run" class="form-horizontal" method="post">
                                     <div class="modal-body">
                                         <div class="form-group">
                                           <div>
@@ -500,90 +445,7 @@
                     </div>
                 </div>
             </div>
-        <div id="staffModify" class="modal">
-                        <div class="modal-dialog animated">
-                            <div class="modal-content">
-                                <form action="" id="12" class="form-horizontal" method="post">
-                                    <input type="hidden" name="formtype" value="modify">
-                                    <div class="modal-header">
-                                        <strong>Modify</strong>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <input type="hidden" name="modify_id"  id="modify_id" value="">
 
-                                            <div>
-                                                <label for="add-name9" class="control-label col-xs-4" style="width:20%">
-                                                    Name:
-                                                </label>
-                                                <input type="text" id="modify_name" name="modify_name"  class="form-control" style="width: 40%"/>
-                                            </div>
-
-                                            <div>
-                                                <label class="control-label col-xs-4" style="padding-top: 20px; width:20%">
-                                                    Gender:
-                                                </label>
-                                                <select  id="modify_gender" class="custom-select b-0" name="modify_gender" style="width: 40%">
-                                                    <option value="Male">Male</option>
-                                                    <option value="Female">Female</option>
-                                                </select>
-                                           </div>
-
-                                            <div>
-                                                <label class="control-label col-xs-4" style="padding-top: 20px; width:20%">
-                                                    Department:
-                                                </label>
-                                                <select  id="modify_department" class="custom-select b-0" name="modify_department" style="width: 40%">
-                                                    <option value="Ophthalmology">Ophthalmology</option>
-                                                    <option value="Dermatology">Dermatology</option>
-                                                    <option value="Internal medicine">Internal medicine</option>
-                                                    <option value="Dentistry">Dentistry</option>
-                                                    <option value="Surgery">Surgery</option>
-                                                    <option value="HR">HR</option>
-                                                    <option value="Warehouse">Warehouse</option>
-                                                </select>
-                                            </div>
-
-                                            <div>
-                                                <label class="control-label col-xs-4" style="padding-top: 20px; width:20%">
-                                                    Phone:
-                                                </label>
-                                                <input  id="modify_phone" type="tel" name="modify_phone"  class="form-control" style="width: 40%"/>
-                                            </div>
-
-                                            <div>
-                                                <label class="control-label col-xs-4" style="padding-top: 20px; width:20%">
-                                                    Position:
-                                                </label>
-                                                <select id="modify_position" class="custom-select b-0" name="modify_position" style="width: 40%">
-                                                    <option value="Leader">Leader</option>
-                                                    <option value="Resident">Resident</option>
-                                                    <option value="Attending Physician">Attending Physician</option>
-                                                    <option value="Chief Physician">Chief Physician</option>
-                                                    <option value="Nurse">Nurse</option>n
-                                                </select>
-                                            </div>
-
-                                            <div>
-                                                <label class="control-label col-xs-4" style="padding-top: 20px; width:20%">
-                                                    Status:
-                                                </label>
-                                                <select  id="modify_status" class="custom-select b-0" name="modify_status"style="width: 40%">
-                                                    <option value="Active">Active</option>
-                                                    <option value="Passive">Passive</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button class="btn btn-default" type="button" onclick="staffModify.close();">Cancel</button>
-                                        <button class="btn btn-primary" style="background-color: #20aee3; border-color: #20aee3" type="submit" onclick="staffModify.close();">Modify</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
 
 
 
@@ -648,11 +510,11 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
-<script src="assets/js/main.js"></script>
 
  <script src="{{url_for('static', filename='assets/js/main.js')}}" ></script>
 </body>
 </html>
+
 <div>
 <!--                    <div class="col-lg-6">-->
 <!--                        <div class="card">-->
@@ -920,3 +782,108 @@
 <!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
+{#                                    <tr>#}
+{#                                            <td class="serial">1.</td>#}
+{#                                            <td>  <span class="name">AFLTEST</span> </td>#}
+{#                                            <td>  <span class="days">2020-1-2</span> </td>#}
+{#                                            <td>  <span class="name">Running</span></td>#}
+{#                                            <td>#}
+{#                                                <button type="button" class="badge badge-complete" >#}
+{#                                                RESULT#}
+{#                                                </button>#}
+{#                                            <td>#}
+{#                                                <button type="button" class="badge badge-complete" data-toggle="modal" data-target="#runModal">#}
+{#                                                RUN#}
+{#                                                </button>#}
+{#                                            </td>#}
+{#                                            <td>#}
+{#                                                <button type="button" class="badge badge-complete" style="background-color: #bb0000" data-toggle="modal" data-target="#deleteModal">#}
+{#                                                DELETE#}
+{#                                                </button>#}
+{#                                            </td>#}
+{##}
+{#                                        </tr>#}
+{# <div id="staffModify" class="modal">#}
+{#                        <div class="modal-dialog animated">#}
+{#                            <div class="modal-content">#}
+{#                                <form action="" id="12" class="form-horizontal" method="post">#}
+{#                                    <input type="hidden" name="formtype" value="modify">#}
+{#                                    <div class="modal-header">#}
+{#                                        <strong>Modify</strong>#}
+{#                                    </div>#}
+{#                                    <div class="modal-body">#}
+{#                                        <div class="form-group">#}
+{#                                            <input type="hidden" name="modify_id"  id="modify_id" value="">#}
+{##}
+{#                                            <div>#}
+{#                                                <label for="add-name9" class="control-label col-xs-4" style="width:20%">#}
+{#                                                    Name:#}
+{#                                                </label>#}
+{#                                                <input type="text" id="modify_name" name="modify_name"  class="form-control" style="width: 40%"/>#}
+{#                                            </div>#}
+{##}
+{#                                            <div>#}
+{#                                                <label class="control-label col-xs-4" style="padding-top: 20px; width:20%">#}
+{#                                                    Gender:#}
+{#                                                </label>#}
+{#                                                <select  id="modify_gender" class="custom-select b-0" name="modify_gender" style="width: 40%">#}
+{#                                                    <option value="Male">Male</option>#}
+{#                                                    <option value="Female">Female</option>#}
+{#                                                </select>#}
+{#                                           </div>#}
+{##}
+{#                                            <div>#}
+{#                                                <label class="control-label col-xs-4" style="padding-top: 20px; width:20%">#}
+{#                                                    Department:#}
+{#                                                </label>#}
+{#                                                <select  id="modify_department" class="custom-select b-0" name="modify_department" style="width: 40%">#}
+{#                                                    <option value="Ophthalmology">Ophthalmology</option>#}
+{#                                                    <option value="Dermatology">Dermatology</option>#}
+{#                                                    <option value="Internal medicine">Internal medicine</option>#}
+{#                                                    <option value="Dentistry">Dentistry</option>#}
+{#                                                    <option value="Surgery">Surgery</option>#}
+{#                                                    <option value="HR">HR</option>#}
+{#                                                    <option value="Warehouse">Warehouse</option>#}
+{#                                                </select>#}
+{#                                            </div>#}
+{##}
+{#                                            <div>#}
+{#                                                <label class="control-label col-xs-4" style="padding-top: 20px; width:20%">#}
+{#                                                    Phone:#}
+{#                                                </label>#}
+{#                                                <input  id="modify_phone" type="tel" name="modify_phone"  class="form-control" style="width: 40%"/>#}
+{#                                            </div>#}
+{##}
+{#                                            <div>#}
+{#                                                <label class="control-label col-xs-4" style="padding-top: 20px; width:20%">#}
+{#                                                    Position:#}
+{#                                                </label>#}
+{#                                                <select id="modify_position" class="custom-select b-0" name="modify_position" style="width: 40%">#}
+{#                                                    <option value="Leader">Leader</option>#}
+{#                                                    <option value="Resident">Resident</option>#}
+{#                                                    <option value="Attending Physician">Attending Physician</option>#}
+{#                                                    <option value="Chief Physician">Chief Physician</option>#}
+{#                                                    <option value="Nurse">Nurse</option>n#}
+{#                                                </select>#}
+{#                                            </div>#}
+{##}
+{#                                            <div>#}
+{#                                                <label class="control-label col-xs-4" style="padding-top: 20px; width:20%">#}
+{#                                                    Status:#}
+{#                                                </label>#}
+{#                                                <select  id="modify_status" class="custom-select b-0" name="modify_status"style="width: 40%">#}
+{#                                                    <option value="Active">Active</option>#}
+{#                                                    <option value="Passive">Passive</option>#}
+{#                                                </select>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{##}
+{#                                    <div class="modal-footer">#}
+{#                                        <button class="btn btn-default" type="button" onclick="staffModify.close();">Cancel</button>#}
+{#                                        <button class="btn btn-primary" style="background-color: #20aee3; border-color: #20aee3" type="submit" onclick="staffModify.close();">Modify</button>#}
+{#                                    </div>#}
+{#                                </form>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
