@@ -9,7 +9,7 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 maindir = os.path.dirname(basedir)
-projectdir= os.path.dirname(basedir)+"/projectfile"
+projectdir= os.path.dirname(os.path.dirname(basedir))+"/projectfile"
 dt = datetime.datetime.now().strftime("%Y-%m-%d")
 @bp_users.route('/users/homepage', methods=['GET', 'POST'])
 def homepage():
@@ -44,40 +44,74 @@ def new():
 @bp_users.route('/users/new', methods=['POST'])
 def newproject():
 
-    pname = request.form["pname"]
+    projectName = request.form["pname"]
     pfile = request.files["pfile"]
-    print(pname)
-    print(basedir)
-#    print(pfile)
+
+
+    print("项目名"+projectName)
+    print("基地址"+basedir)
+
     '''
-    解压部分，不过解压后的目录着实难受
+    生成项目目录
     '''
-    os.system(
-        'unzip -d /Users/darihan/Desktop/AFL/app/projectfile/1/haha /Users/darihan/Desktop/AFL/app/projectfile/1/1-191105215T9.zip')
+    project_path = projectdir + "/" + str(session["user_id"]) + "/" +projectName #保存路径
+    print("项目目录"+project_path)
+    os.mkdir(project_path)
+
+
+    '''
+    保存zip文件
+    '''
+
+    pzipfileName = pfile.filename
+
+    print("文件"+pzipfileName)
+
+
+
+    zipfile_path = project_path+ "/" +pzipfileName #保存路径
+
+    print("保存文件"+pzipfileName)
+
+    pfile.save(zipfile_path) #保存到本地
+
+
+
+
+    '''
+    解压部分
+    '''
+    os.system('unzip -d '+project_path +' ' +zipfile_path)
+
+
+
+
+    '''
+    生成in out 目录, afl 输入输出目录
+    '''
+    filedir= project_path+ "/" +pzipfileName[:-4]
+    inpath=filedir + "/afl-in"
+    outpath=filedir + "/afl-out"
+
+    os.mkdir(inpath)
+    os.mkdir(outpath)
 
     '''
     这部分是还未成型的判断重复
     '''
-    if Project.query.filter(Project.name == pname).first() is not None:
+    if Project.query.filter(Project.name == projectName).first() is not None:
         print("duplicate")
 
 
-    pName = pfile.filename
-
-    print(pName)
 
 
-    file_path = projectdir + "/" + str(session["user_id"]) + "/" +pName #保存路径
 
-    pfile.save(file_path) #保存到本地
-
-    os.system('mkdir pname')
 
     '''
     保存到数据库
     '''
 
-    db.session.add(Project(name=pname, userid=session["user_id"], status="initial", visibility=0,path=file_path,
+    db.session.add(Project(name=projectName, userid=session["user_id"], status="initial", visibility=0, path=project_path,
                            uploadtime=dt))
     db.session.commit()
 
