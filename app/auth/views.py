@@ -4,6 +4,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from . import bp_auth
 from ..model import User, db
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.header import Header
 
 
 @bp_auth.route('/', methods=['GET', 'POST'])
@@ -19,7 +23,8 @@ def welcome():
     #return render_template('mainpage.html')
     #return redirect(url_for('auth.login'))
     session["user_id"] = 1
-    return redirect(url_for('users.homepage'))
+    #return redirect(url_for('auth.login'))
+    return redirect(url_for('project.homepage'))
 
 
 @bp_auth.route('/login', methods=['GET', 'POST'])
@@ -45,7 +50,7 @@ def login():
             session["user_id"] = user.id
             print(user.id)
             #return "ok"
-            return redirect(url_for('users.homepage'))
+            return redirect(url_for('project.homepage'))
         flash(error)
 
     return render_template("auth/page-login.html")
@@ -79,6 +84,43 @@ def register():
 
 @bp_auth.route('/forgot', methods=['GET', 'POST'])
 def forgot():
+    if request.method == "POST":
+        email = request.form["email"]
+        # smtpserver = "smtp.qq.com"
+        # smtpport = 465
+        # from_mail = "919769592@qq.com"
+        # to_mail = [email]
+        # password = "njcaytofvudobfij"  # 16位授权码
+        #
+        # subject = "test report"
+        # from_name = "AFL测试平台"
+        newpassword='12345678'
+
+
+        msg_from = '919769592@qq.com'  # 发送方邮箱
+        passwd = 'njcaytofvudobfij'  # 填入发送方邮箱的授权码
+        msg_to = email  # 收件人邮箱
+
+        subject = "重置密码"  # 主题
+        content = "你的密码是：" + newpassword
+        msg = MIMEText(content)
+        msg['Subject'] = subject
+        msg['From'] = msg_from
+        msg['To'] = msg_to
+        try:
+            s = smtplib.SMTP_SSL("smtp.qq.com", 465)
+            s.login(msg_from, passwd)
+            s.sendmail(msg_from, msg_to, msg.as_string())
+            print("发送成功")
+
+        except s.SMTPException as e:
+            print("发送失败")
+        finally:
+            s.quit()
+
+
+        #return redirect(url_for("auth.login"))
+        return "ok"
     return render_template('auth/pages-forget.html')
 
 def check_user(email, password):

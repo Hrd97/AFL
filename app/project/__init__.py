@@ -1,3 +1,3 @@
 from flask import Blueprint
-bp_users = Blueprint('users', __name__)
+bp_project = Blueprint('project', __name__)
 from . import views

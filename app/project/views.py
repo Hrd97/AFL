@@ -2,7 +2,7 @@ from flask import render_template, request, session, redirect, url_for
 from werkzeug.security import generate_password_hash
 
 import app
-from . import bp_users
+from . import bp_project
 import datetime
 from ..model import db, User, Project
 import os
@@ -11,7 +11,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 maindir = os.path.dirname(basedir)
 projectdir= os.path.dirname(os.path.dirname(basedir))+"/projectfile"
 dt = datetime.datetime.now().strftime("%Y-%m-%d")
-@bp_users.route('/users/homepage', methods=['GET', 'POST'])
+@bp_project.route('/project/homepage', methods=['GET', 'POST'])
 def homepage():
     dt = datetime.datetime.now().strftime("%Y-%m-%d")
     # print("here111")
@@ -19,15 +19,15 @@ def homepage():
     user = User.query.filter(User.id == session["user_id"]).first()
     projects = Project.query.filter(User.id == session["user_id"]).all()
 
-    return render_template('project.html', projects=projects)
+    return render_template('project/project.html', projects=projects)
     # if user.position=='Leader':
-    #     return render_template('users/index_leader.html', reservations=reservations, user=user, notice=notice)
+    #     return render_template('project/index_leader.html', reservations=reservations, user=user, notice=notice)
     # else:
-    #     return render_template('users/login.html', reservations=reservations, user=user, notice=notice)
+    #     return render_template('project/login.html', reservations=reservations, user=user, notice=notice)
 
 
 
-@bp_users.route('/users/newproject', methods=['POST'])
+@bp_project.route('/project/newproject', methods=['POST'])
 def new():
     pname = request.form["pname"]
     print(pname)
@@ -36,12 +36,9 @@ def new():
     print(file_path)
     os.mkdir(file_path)
     print("ok?")
-    return redirect(url_for('users.homepage'))
+    return redirect(url_for('project.homepage'))
 
-
-
-
-@bp_users.route('/users/new', methods=['POST'])
+@bp_project.route('/project/new', methods=['POST'])
 def newproject():
 
     projectName = request.form["pname"]
@@ -91,9 +88,9 @@ def newproject():
     '''
     filedir= project_path+ "/" +pzipfileName[:-4]
     inpath=filedir + "/afl-in"
-    outpath=filedir + "/afl-out"
+    outpath=project_path + "/afl-out"
 
-    os.mkdir(inpath)
+    #os.mkdir(inpath)   初始测试用例由用户上传时完成创建
     os.mkdir(outpath)
 
     '''
@@ -103,37 +100,122 @@ def newproject():
         print("duplicate")
 
 
-
-
-
-
     '''
     保存到数据库
     '''
 
-    db.session.add(Project(name=projectName, userid=session["user_id"], status="initial", visibility=0, path=project_path,
+    db.session.add(Project(name=projectName, userid=session["user_id"], status="initial", visibility=0,
+                           path=filedir,
                            uploadtime=dt))
     db.session.commit()
 
-    return redirect(url_for('users.homepage'))
+    return redirect(url_for('project.homepage'))
 
 
 
 
-@bp_users.route('/users/run', methods=['POST'])
+@bp_project.route('/project/run', methods=['POST'])
 def run():
-    return redirect(url_for('users.homepage'))
+    execName = request.form["exec"]
+    parameter = request.form["parameter"]
+    compiler = request.form["compiler"]
+    makefile = request.form["makefile"]
+    projectName = request.form["projectname"]
+    read = request.form["read"]
+
+    print(execName)
+    print(parameter)
+
+    print(compiler)
+    print(makefile)
+    print(read)
+
+    pfile = request.files["file-input"]
+    print(pfile)
+
+
+    print(projectName)
+
+    '''
+    保存zip文件
+    '''
+    pzipfileName = pfile.filename
+
+    project=Project.query.filter(Project.name == projectName,User.id == session["user_id"]).first();
+
+    zipfile_path = os.path.dirname(project.path) + "/" + pzipfileName  # 保存路径
+
+    pfile.save(zipfile_path)
+    '''
+    解压部分
+    '''
+    os.system('unzip -d '+ os.path.dirname(project.path) + ' ' + zipfile_path)
+
+
+    # print("基地址" + basedir)
+    # print("项目目录" + projectdir)
+    # scriptPath=os.path.dirname(projectdir)+"/script"
+    # '''
+    # 通过传参数去完成执行afl工具
+    # '''
+    # if compiler == 'option1' and makefile == 'option1' and read == 'option1':
+    #     os.system('bash ' + scriptPath + '/execafl-a.sh ' + execName + ' ' + parameter)
+    # elif compiler == 'option1' and makefile == 'option1' and read == 'option2':
+    #     os.system('bash ' + scriptPath + '/execafl-a.sh ' + execName + ' ' + parameter + ' ' + '@@')
+    # elif compiler == 'option1' and makefile == 'option2' and read == 'option1':
+    #     os.system('bash ' + scriptPath + '/execafl-a.sh ' + execName + ' ' + parameter)
+    # elif compiler == 'option1' and makefile == 'option2' and read == 'option2':
+    #     os.system('bash ' + scriptPath + '/execafl-a.sh ' + execName + ' ' + parameter + ' ' + '@@')
+    # elif compiler == 'option2' and makefile == 'option1' and read == 'option1':
+    #     os.system('bash ' + scriptPath + '/execafl-b.sh ' + execName + ' ' + parameter)
+    # elif compiler == 'option2' and makefile == 'option1' and read == 'option2':
+    #     os.system('bash ' + scriptPath + '/execafl-b.sh ' + execName + ' ' + parameter + ' ' + '@@')
+    # elif compiler == 'option2' and makefile == 'option2' and read == 'option1':
+    #     os.system('bash ' + scriptPath + '/execafl-b.sh ' + execName + ' ' + parameter)
+    # elif compiler == 'option2' and makefile == 'option2' and read == 'option2':
+    #     os.system('bash ' + scriptPath + '/execafl-b.sh ' + execName + ' ' + parameter + ' ' + '@@')
+
+    return redirect(url_for('project.homepage'))
+
+
+
+
+@bp_project.route('/project/refresh', methods=['POST'])
+def refresh():
+    data = request.get_json()
+    print(request.get_json())
+
+
+
+    # project = Project.query.filter(Project.name == projectName, User.id == session["user_id"]).first()
+    #
+    # medicinedict = {}
+    # i = 0
+    # print(prescription)
+    # for medicine in prescription:
+    #     medicinedict[i] = medicine.to_json()
+    #     i = i + 1
+
+    return {'pid' : 'sd'}
+
+
+
+
+@bp_project.route('/project/dashboard', methods=['GET','POST'])
+def dashboard():
+
+    return render_template('project/dashboard.html')
 #
-# @bp_doctor.route('/users/homepageLeader')
+# @bp_doctor.route('/project/homepageLeader')
 # def homepageleader():
 #     dt = datetime.datetime.now().strftime("%Y-%m-%d")
 #     reservations = Reservation.query.filter(Reservation.doctor_ID == session["user_id"],
 #                                             Reservation.reservationDate == dt).all()
 #     user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
-#     return render_template('users/index_leader.html', reservations=reservations, user=user)
+#     return render_template('project/index_leader.html', reservations=reservations, user=user)
 #
 #
-# @bp_doctor.route('/users/profile', methods=['GET', 'POST'])
+# @bp_doctor.route('/project/profile', methods=['GET', 'POST'])
 # def profile():
 #     if request.method == 'POST':
 #         name = request.form['name']
@@ -150,24 +232,24 @@ def run():
 #             user.password = generate_password_hash(password)
 #         user.email = email
 #         db.session.commit()
-#         return redirect(url_for('users.profile'))
+#         return redirect(url_for('project.profile'))
 #
 #     user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
 #     print(user.name)
-#     return render_template('users/profile.html', user=user)
+#     return render_template('project/profile.html', user=user)
 #
 #
-# @bp_doctor.route('/users/mySchedule')
+# @bp_doctor.route('/project/mySchedule')
 # def myschedule():
 #     dt = datetime.datetime.now().strftime("%Y-%m-%d")
 #     scheduleInfo = Schedule.query.filter(Schedule.staff_ID == session["user_id"], Schedule.date >= dt).all()
 #     user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
 #     for schedule in scheduleInfo :
 #         print(schedule)
-#     return render_template('users/schedule.html', scheduleInfo=scheduleInfo, user=user)
+#     return render_template('project/schedule.html', scheduleInfo=scheduleInfo, user=user)
 #
 #
-# @bp_doctor.route('/users/schedule')
+# @bp_doctor.route('/project/schedule')
 # def schedule():
 #     user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
 #
@@ -197,25 +279,25 @@ def run():
 #     six_days = now + six
 #     dateInfo.append(six_days)
 #
-#     return render_template('users/schedule_leader.html', dateInfo=dateInfo, user=user, doctorlist=doctorlist)
+#     return render_template('project/schedule_leader.html', dateInfo=dateInfo, user=user, doctorlist=doctorlist)
 #
 #
-# @bp_doctor.route('/users/scheduling')
+# @bp_doctor.route('/project/scheduling')
 # def scheduling():
-#     return redirect(url_for({{'users.schedule'}}))
+#     return redirect(url_for({{'project.schedule'}}))
 #
 #
-# @bp_doctor.route('/users/reservationCheck', methods=['GET', 'POST'])
+# @bp_doctor.route('/project/reservationCheck', methods=['GET', 'POST'])
 # def reservationcheck():
 #     dt = datetime.datetime.now().strftime("%Y-%m-%d")
 #     reservationCheck = Reservation.query.filter_by(doctor_ID=session["user_id"], reservationDate=dt).all()
 #     medicineInfo = Medicine.query.all()
 #     user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
-#     return render_template('users/reservationChecklist.html',
+#     return render_template('project/reservationChecklist.html',
 #                            reservationCheck=reservationCheck, medicineInfo=medicineInfo, user=user)
 #
 #
-# @bp_doctor.route('/users/checkcondition', methods=['GET', 'POST'])
+# @bp_doctor.route('/project/checkcondition', methods=['GET', 'POST'])
 # def checkcondition():
 #     data = request.get_json()
 #     print(request.get_json())
@@ -231,16 +313,16 @@ def run():
 #     return conditiondict
 #
 #
-# @bp_doctor.route('/users/inpatientList')
+# @bp_doctor.route('/project/inpatientList')
 # def inpatientlist():
 #     inpatientList = Hospitalization.query.filter_by(doctor_ID=session["user_id"]).all()
 #     medicineInfo = Medicine.query.all()
 #     user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
-#     return render_template('users/inpatientList.html',
+#     return render_template('project/inpatientList.html',
 #                            inpatientList=inpatientList, medicineInfo=medicineInfo, user=user)
 #
 #
-# @bp_doctor.route('/users/reservationCheck/diagnose', methods=['GET', 'POST'])
+# @bp_doctor.route('/project/reservationCheck/diagnose', methods=['GET', 'POST'])
 # def diagnose():
 #     print(request.form)
 #     diagnose = request.form['dia_desc']
@@ -253,11 +335,11 @@ def run():
 #     reservationCheck = Reservation.query.filter_by(doctor_ID=session["user_id"], reservationDate=dt).all()
 #     medicineInfo = Medicine.query.all()
 #     user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
-#     return render_template('users/reservationChecklist.html',
+#     return render_template('project/reservationChecklist.html',
 #                            reservationCheck=reservationCheck, medicineInfo=medicineInfo, user=user)
 #
 #
-# @bp_doctor.route('/users/reservationCheck/inpatient', methods=['GET', 'POST'])
+# @bp_doctor.route('/project/reservationCheck/inpatient', methods=['GET', 'POST'])
 # def inpatient():
 #     if request.method == "POST":
 #         pname = request.form['in-name']
@@ -272,12 +354,12 @@ def run():
 #     # reservationCheck = Reservation.query.filter_by(doctor_ID= session["user_id"]).all()
 #     # medicineInfo = Medicine.query.all()
 #     # user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
-#     # return render_template('users/reservationChecklist.html',
+#     # return render_template('project/reservationChecklist.html',
 #     #                        reservationCheck=reservationCheck, medicineInfo=medicineInfo, user=user)
-#     return redirect(url_for('users.reservationcheck'))
+#     return redirect(url_for('project.reservationcheck'))
 #
 #
-# @bp_doctor.route('/users/reservationCheck/prescribe', methods=['GET', 'POST'])
+# @bp_doctor.route('/project/reservationCheck/prescribe', methods=['GET', 'POST'])
 # def prescribe():
 #     data = request.get_json()
 #     # print('here')
@@ -310,27 +392,27 @@ def run():
 #     reservationCheck = Reservation.query.filter_by(doctor_ID=session["user_id"]).all()
 #     medicineInfo = Medicine.query.all()
 #     user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
-#     return render_template('users/reservationChecklist.html',
+#     return render_template('project/reservationChecklist.html',
 #                            reservationCheck=reservationCheck, medicineInfo=medicineInfo, user=user)
 #
 #
-# @bp_doctor.route('/users/reservationCheck/searchdate', methods=['POST'])
+# @bp_doctor.route('/project/reservationCheck/searchdate', methods=['POST'])
 # def searchdate():
 #     dt = request.form['sdate']
 #     user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
 #     if dt == '':
 #         reservationCheck = Reservation.query.filter_by(doctor_ID=session["user_id"]).all()
 #         medicineInfo = Medicine.query.all()
-#         return render_template('users/reservationChecklist.html',
+#         return render_template('project/reservationChecklist.html',
 #                                reservationCheck=reservationCheck, medicineInfo=medicineInfo, user=user)
 #
 #     reservationCheck = Reservation.query.filter_by(doctor_ID=session["user_id"], reservationDate=dt).all()
 #     medicineInfo = Medicine.query.all()
-#     return render_template('users/reservationChecklist.html',
+#     return render_template('project/reservationChecklist.html',
 #                            reservationCheck=reservationCheck, medicineInfo=medicineInfo, user=user)
 #
 #
-# @bp_doctor.route('/users/reservationCheck/addschdule', methods=['POST'])
+# @bp_doctor.route('/project/reservationCheck/addschdule', methods=['POST'])
 # def addschedule():
 #     data = request.get_json()
 #     print(request.get_json())

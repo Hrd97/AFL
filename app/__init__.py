@@ -15,8 +15,8 @@ def create_app():
     from .auth import bp_auth
     app.register_blueprint(bp_auth, url_prfix="/")
 
-    from .users import bp_users
-    app.register_blueprint(bp_users, url_prfix='/users')
+    from .project import bp_project
+    app.register_blueprint(bp_project, url_prfix='/project')
     #
     # from .testresult import bp_testresult
     # app.register_blueprint(bp_testresult, url_prfix='/testresult')
