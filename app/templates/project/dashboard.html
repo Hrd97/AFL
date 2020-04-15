@@ -222,7 +222,8 @@
                     <div class="col-sm-4">
                         <div class="page-header float-left">
                             <div class="page-title">
-                                <h1>Dashboard</h1>
+                                <h1 id="p-n">{{project.name}}</h1>
+                                <input type="text"  hidden id="p-p" value={{project.path}} >
                             </div>
                         </div>
                     </div>
@@ -291,9 +292,9 @@
                             <div class="card-body">
                                 <div class="card-left pt-1 float-left">
                                     <h3 class="mb-0 fw-r">
-                                        <span id="unique-path" class="count">6569</span>
+                                        <span id="total-path" class="count">6569</span>
                                     </h3>
-                                    <p class="text-light mt-1 m-0">UNIQUE PATH</p>
+                                    <p class="text-light mt-1 m-0">>Total Path</p>
                                 </div><!-- /.card-left -->
 
                                 <div class="card-right float-right text-right">
@@ -490,7 +491,7 @@
                                     </div>
 
                                     <div class="h4 mb-0">
-                                        <span id="exec-speed" class="count">87500</span>
+                                        <span id="exec-speed">87500</span>
                                         <span>/SEC</span>
                                     </div>
 
@@ -642,26 +643,6 @@
           <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
      <script type="text/javascript">
 //别忘了导入该用的js文件
-setInterval(function () {
-    var pname='fe';
-    var data={
-    'projectname':pname
-    };
-    $.ajax({
-        url: "{{ url_for('project.refresh') }}", //请求的url
-        type: 'post', //请求的方式
-        contentType: 'application/json; charset=UTF-8',
-        //data: $('#search').serialize(), //form表单里要提交的内容，里面的input等写上name就会提交，这是序列化
-        data: JSON.stringify(data),
-        //dataType : 'json',
-        error:function (data) {
-            //alert('查询失败');
-        },
-        success:function (data) {
-            console.log(data)
-        }
-    })
-},1000)
 {#id="exec-speed"#}
 {#id="total-exec"#}
 {#id="total-path"#}
@@ -675,6 +656,49 @@ setInterval(function () {
 {#id="unique-path"#}
 {#id="unique-hang"#}
 {#id="unique-crash"#}
+setInterval(function () {
+    var pname=document.getElementById("p-p").value;
+    var data={
+    'projectname':pname
+    };
+    var total_exec=document.getElementById("total-exec")
+    var exec_speed=document.getElementById("exec-speed")
+    var run_time=document.getElementById("run-time")
+    var last_new_path=document.getElementById("last-new-path")
+    var last_unique_hang=document.getElementById("last-unique-hang")
+    var last_unique_crash=document.getElementById("last-unique-crash")
+    var paths_total=document.getElementById("total-path")
+    var cycles_done=document.getElementById("cycle-done")
+    var unique_crashes=document.getElementById("unique-crash")
+    var unique_hangs=document.getElementById("unique-hang")
+
+    $.ajax({
+        url: "{{ url_for('project.refresh') }}", //请求的url
+        type: 'post', //请求的方式
+        contentType: 'application/json; charset=UTF-8',
+        //data: $('#search').serialize(), //form表单里要提交的内容，里面的input等写上name就会提交，这是序列化
+        data: JSON.stringify(data),
+        //dataType : 'json',
+        error:function (data) {
+            //alert('查询失败');
+        },
+        success:function (data) {
+            total_exec.innerHTML=data['execs_done'];
+            exec_speed.innerHTML=data['execs_per_sec'];
+
+            //run_time.innerHTML= int(data['start_time']) - int(data['last_update']);
+            cycles_done.innerHTML=data['cycles_done'];
+            //last_new_path.innerHTML=int(data['start_time']) - int(data['last_path']);
+           // last_unique_hang.innerHTML= int(data['start_time']) - int(data['last_hang']);
+           // last_unique_crash.innerHTML= int(data['start_time'])- int(data['last_crash']);
+            paths_total.innerHTML=data['paths_total'];
+            unique_crashes.innerHTML=data['unique_crashes'];
+            unique_hangs.innerHTML=data['unique_hangs'];
+
+        }
+    })
+},1000)
+
 </script>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>

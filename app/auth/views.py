@@ -1,10 +1,10 @@
-from flask import render_template, redirect, flash, request, session, url_for
+from flask import render_template, redirect, flash, request, session, url_for, app, send_file, send_from_directory
 # 导入表单处理方法
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from . import bp_auth
 from ..model import User, db
-import smtplib
+import smtplib, os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
@@ -23,8 +23,14 @@ def welcome():
     #return render_template('mainpage.html')
     #return redirect(url_for('auth.login'))
     session["user_id"] = 1
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    maindir = os.path.dirname(basedir)
+    pdir = os.path.dirname(maindir)
+    print(maindir)
+    return send_from_directory(pdir+'/projectfile/1/11',filename='in.zip', as_attachment=True)
+
     #return redirect(url_for('auth.login'))
-    return redirect(url_for('project.homepage'))
+    #return redirect(url_for('project.homepage'))
 
 
 @bp_auth.route('/login', methods=['GET', 'POST'])

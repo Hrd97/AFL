@@ -141,7 +141,7 @@ def run():
     '''
     pzipfileName = pfile.filename
 
-    project=Project.query.filter(Project.name == projectName,User.id == session["user_id"]).first();
+    project=Project.query.filter(Project.name == projectName,User.id == session["user_id"]).first()
 
     zipfile_path = os.path.dirname(project.path) + "/" + pzipfileName  # 保存路径
 
@@ -183,9 +183,29 @@ def run():
 @bp_project.route('/project/refresh', methods=['POST'])
 def refresh():
     data = request.get_json()
-    print(request.get_json())
+    #print(request.get_json())
+    #print(data['projectname'])
+
+    file_path=maindir = os.path.dirname(data['projectname']) +'/afl-out/fuzzer_stats'
+
+    statdict = {}
+    with open(file_path, encoding='utf-8') as file_obj:
+        line = file_obj.readline()
+        while line != '':
+            #print(line)
+            x=line.split(':', 1);  # 以空格为分隔符，分隔成两个
+            statdict[x[0].rstrip()] = x[1].rstrip("\n").strip()
+            line = file_obj.readline()
 
 
+
+    # i = 0
+    # print(prescription)
+    # for medicine in prescription:
+    #     medicinedict[i] = medicine.to_json()
+    #     i = i + 1
+    #
+    # return medicinedict
 
     # project = Project.query.filter(Project.name == projectName, User.id == session["user_id"]).first()
     #
@@ -196,15 +216,17 @@ def refresh():
     #     medicinedict[i] = medicine.to_json()
     #     i = i + 1
 
-    return {'pid' : 'sd'}
+    return statdict
 
 
 
 
 @bp_project.route('/project/dashboard', methods=['GET','POST'])
 def dashboard():
-
-    return render_template('project/dashboard.html')
+    projectName = request.form["projectname"]
+    print(projectName)
+    project = Project.query.filter(Project.name == projectName, User.id == session["user_id"]).first()
+    return render_template('project/dashboard.html', project=project)
 #
 # @bp_doctor.route('/project/homepageLeader')
 # def homepageleader():
