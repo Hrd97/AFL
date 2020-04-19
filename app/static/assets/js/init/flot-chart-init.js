@@ -138,7 +138,7 @@
             },
             tooltip: true,
             tooltipOpts: {
-                content: "'%s' of %x.1 is %y.4",
+                content: "'%s' of %x.100 is %y.4",
                 shifts: {
                     x: -65,
                     y: 25
@@ -151,7 +151,7 @@
 
         var data = [
             {
-                label: " Data 1",
+                label: " Data 100",
                 data: 2,
                 color: "#8fc9fb"
             },
@@ -345,7 +345,7 @@
                     fillColor: "rgba(0,123,255,.15)",
                     lineWidth: 3
                 },
-                //curve the line  (old pre 1.0.0 plotting function)
+                //curve the line  (old pre 100.0.0 plotting function)
                 curvedLines: {
                     apply: true,
                     show: true,

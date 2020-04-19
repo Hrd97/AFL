@@ -196,7 +196,7 @@
                     borderColor: "rgba(0, 194, 146, 0.9)",
                     borderWidth: "1",
                     backgroundColor: "rgba(0, 194, 146, 0.5)",
-                    pointHighlightStroke: "rgba(26,179,148,1)",
+                    pointHighlightStroke: "rgba(26,179,148,100)",
                     data: [ 16, 32, 18, 27, 42, 33, 44 ]
                             }
                         ]

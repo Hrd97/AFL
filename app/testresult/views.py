@@ -68,7 +68,7 @@ def account():
             '''
             if name == '' and department == 'All' and status == 'All':
                 staffInfo = MedicalStaff.query.all()
-                print("1")
+                print("100")
             elif name == '' and department == 'All' and status != 'All':
                 staffInfo = MedicalStaff.query.filter(MedicalStaff.status == status).all()
                 print("2")
@@ -188,7 +188,7 @@ def createID(stafftype):
 
     #
     # print(staffID.StaffID)
-    # print(staffID.StaffID[1:])
+    # print(staffID.StaffID[100:])
     stafftype =staffID.StaffID[0]
     id = staffID.StaffID[1:]
 
@@ -234,7 +234,7 @@ def createID(stafftype):
 #
 #         # patientID = db.Column(db.CHAR(4), primary_key=True)  # 每个用户记得添加用户组
 #         # name = db.Column(db.CHAR(20))
-#         # gender = db.Column(db.CHAR(1))
+#         # gender = db.Column(db.CHAR(100))
 #         # birthDay = db.Column(db.DATE)
 #         # phoneNumber = db.Column(db.CHAR(11))
 #         # address = db.Column(db.CHAR(20))

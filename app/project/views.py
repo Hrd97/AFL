@@ -5,6 +5,7 @@ import app
 from . import bp_project
 import datetime
 from ..model import db, User, Project
+from ..cLass import UserClass, ProjectClass
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -14,29 +15,19 @@ dt = datetime.datetime.now().strftime("%Y-%m-%d")
 @bp_project.route('/project/homepage', methods=['GET', 'POST'])
 def homepage():
     dt = datetime.datetime.now().strftime("%Y-%m-%d")
-    # print("here111")
-    # print(session["user_id"])
-    user = User.query.filter(User.id == session["user_id"]).first()
-    projects = Project.query.filter(User.id == session["user_id"]).all()
+    print(session["user_id"])
+
+    user=UserClass.getfromid(session["user_id"])
+    #print(user.email)
+    #user = User.query.filter(User.id == session["user_id"]).first()
+    projects=user.myproject(session["user_id"])
+    #projects = Project.query.filter(Project.userid == session["user_id"]).all()
 
     return render_template('project/project.html', projects=projects)
     # if user.position=='Leader':
     #     return render_template('project/index_leader.html', reservations=reservations, user=user, notice=notice)
     # else:
     #     return render_template('project/login.html', reservations=reservations, user=user, notice=notice)
-
-
-
-@bp_project.route('/project/newproject', methods=['POST'])
-def new():
-    pname = request.form["pname"]
-    print(pname)
-
-    file_path = projectdir + "/" + str(session["user_id"]) + "/" +pname #保存路径
-    print(file_path)
-    os.mkdir(file_path)
-    print("ok?")
-    return redirect(url_for('project.homepage'))
 
 @bp_project.route('/project/new', methods=['POST'])
 def newproject():
@@ -48,66 +39,14 @@ def newproject():
     print("项目名"+projectName)
     print("基地址"+basedir)
 
-    '''
-    生成项目目录
-    '''
-    project_path = projectdir + "/" + str(session["user_id"]) + "/" +projectName #保存路径
-    print("项目目录"+project_path)
-    os.mkdir(project_path)
+    project=ProjectClass(projectName,session["user_id"])
 
+    project.createprojectdir()
 
-    '''
-    保存zip文件
-    '''
+    project.saveprojectfile(pfile)
 
-    pzipfileName = pfile.filename
+    project.newproject(pfile.filename)
 
-    print("文件"+pzipfileName)
-
-
-
-    zipfile_path = project_path+ "/" +pzipfileName #保存路径
-
-    print("保存文件"+pzipfileName)
-
-    pfile.save(zipfile_path) #保存到本地
-
-
-
-
-    '''
-    解压部分
-    '''
-    os.system('unzip -d '+project_path +' ' +zipfile_path)
-
-
-
-
-    '''
-    生成in out 目录, afl 输入输出目录
-    '''
-    filedir= project_path+ "/" +pzipfileName[:-4]
-    inpath=filedir + "/afl-in"
-    outpath=project_path + "/afl-out"
-
-    #os.mkdir(inpath)   初始测试用例由用户上传时完成创建
-    os.mkdir(outpath)
-
-    '''
-    这部分是还未成型的判断重复
-    '''
-    if Project.query.filter(Project.name == projectName).first() is not None:
-        print("duplicate")
-
-
-    '''
-    保存到数据库
-    '''
-
-    db.session.add(Project(name=projectName, userid=session["user_id"], status="initial", visibility=0,
-                           path=filedir,
-                           uploadtime=dt))
-    db.session.commit()
 
     return redirect(url_for('project.homepage'))
 
@@ -136,20 +75,13 @@ def run():
 
     print(projectName)
 
-    '''
-    保存zip文件
-    '''
-    pzipfileName = pfile.filename
+    project = ProjectClass(projectName, session["user_id"])
 
-    project=Project.query.filter(Project.name == projectName,User.id == session["user_id"]).first()
 
-    zipfile_path = os.path.dirname(project.path) + "/" + pzipfileName  # 保存路径
+    project.uploadtesttfile(pfile)
 
-    pfile.save(zipfile_path)
-    '''
-    解压部分
-    '''
-    os.system('unzip -d '+ os.path.dirname(project.path) + ' ' + zipfile_path)
+    project.runproject(execName,parameter,compiler,makefile,read)
+
 
 
     # print("基地址" + basedir)
@@ -158,22 +90,6 @@ def run():
     # '''
     # 通过传参数去完成执行afl工具
     # '''
-    # if compiler == 'option1' and makefile == 'option1' and read == 'option1':
-    #     os.system('bash ' + scriptPath + '/execafl-a.sh ' + execName + ' ' + parameter)
-    # elif compiler == 'option1' and makefile == 'option1' and read == 'option2':
-    #     os.system('bash ' + scriptPath + '/execafl-a.sh ' + execName + ' ' + parameter + ' ' + '@@')
-    # elif compiler == 'option1' and makefile == 'option2' and read == 'option1':
-    #     os.system('bash ' + scriptPath + '/execafl-a.sh ' + execName + ' ' + parameter)
-    # elif compiler == 'option1' and makefile == 'option2' and read == 'option2':
-    #     os.system('bash ' + scriptPath + '/execafl-a.sh ' + execName + ' ' + parameter + ' ' + '@@')
-    # elif compiler == 'option2' and makefile == 'option1' and read == 'option1':
-    #     os.system('bash ' + scriptPath + '/execafl-b.sh ' + execName + ' ' + parameter)
-    # elif compiler == 'option2' and makefile == 'option1' and read == 'option2':
-    #     os.system('bash ' + scriptPath + '/execafl-b.sh ' + execName + ' ' + parameter + ' ' + '@@')
-    # elif compiler == 'option2' and makefile == 'option2' and read == 'option1':
-    #     os.system('bash ' + scriptPath + '/execafl-b.sh ' + execName + ' ' + parameter)
-    # elif compiler == 'option2' and makefile == 'option2' and read == 'option2':
-    #     os.system('bash ' + scriptPath + '/execafl-b.sh ' + execName + ' ' + parameter + ' ' + '@@')
 
     return redirect(url_for('project.homepage'))
 
@@ -197,13 +113,22 @@ def refresh():
             statdict[x[0].rstrip()] = x[1].rstrip("\n").strip()
             line = file_obj.readline()
 
+    @bp_project.route('/project/newproject', methods=['POST'])
+    def new():
+        pname = request.form["pname"]
+        print(pname)
 
+        file_path = projectdir + "/" + str(session["user_id"]) + "/" + pname  # 保存路径
+        print(file_path)
+        os.mkdir(file_path)
+        print("ok?")
+        return redirect(url_for('project.homepage'))
 
     # i = 0
     # print(prescription)
     # for medicine in prescription:
     #     medicinedict[i] = medicine.to_json()
-    #     i = i + 1
+    #     i = i + 100
     #
     # return medicinedict
 
@@ -214,7 +139,7 @@ def refresh():
     # print(prescription)
     # for medicine in prescription:
     #     medicinedict[i] = medicine.to_json()
-    #     i = i + 1
+    #     i = i + 100
 
     return statdict
 
@@ -227,6 +152,69 @@ def dashboard():
     print(projectName)
     project = Project.query.filter(Project.name == projectName, User.id == session["user_id"]).first()
     return render_template('project/dashboard.html', project=project)
+
+
+# @bp_project.route('/project/new', methods=['POST'])
+# def newproject():
+#     projectName = request.form["pname"]
+#     pfile = request.files["pfile"]
+#
+#     print("项目名" + projectName)
+#     print("基地址" + basedir)
+#
+#     '''
+#     生成项目目录
+#     '''
+#     project_path = projectdir + "/" + str(session["user_id"]) + "/" + projectName  # 保存路径
+#     print("项目目录" + project_path)
+#     os.mkdir(project_path)
+#
+#     '''
+#     保存zip文件
+#     '''
+#
+#     pzipfileName = pfile.filename
+#
+#     print("文件" + pzipfileName)
+#
+#     zipfile_path = project_path + "/" + pzipfileName  # 保存路径
+#
+#     print("保存文件" + pzipfileName)
+#
+#     pfile.save(zipfile_path)  # 保存到本地
+#
+#     '''
+#     解压部分
+#     '''
+#     os.system('unzip -d ' + project_path + ' ' + zipfile_path)
+#
+#     '''
+#     生成in out 目录, afl 输入输出目录
+#     '''
+#     filedir = project_path + "/" + pzipfileName[:-4]
+#     inpath = filedir + "/afl-in"
+#     outpath = project_path + "/afl-out"
+#
+#     # os.mkdir(inpath)   初始测试用例由用户上传时完成创建
+#     os.mkdir(outpath)
+#
+#     '''
+#     这部分是还未成型的判断重复
+#     '''
+#     if Project.query.filter(Project.name == projectName).first() is not None:
+#         print("duplicate")
+#
+#     '''
+#     保存到数据库
+#     '''
+#
+#     db.session.add(Project(name=projectName, userid=session["user_id"], status="initial", visibility=0,
+#                            path=filedir,
+#                            uploadtime=dt))
+#     db.session.commit()
+#
+#     return redirect(url_for('project.homepage'))
+
 #
 # @bp_doctor.route('/project/homepageLeader')
 # def homepageleader():
@@ -282,7 +270,7 @@ def dashboard():
 #     dateInfo = []
 #     now = datetime.date.today()
 #     dateInfo.append(now)
-#     one = datetime.timedelta(days=1)
+#     one = datetime.timedelta(days=100)
 #     one_days = now + one
 #     dateInfo.append(one_days)
 #     two = datetime.timedelta(days=2)
@@ -331,7 +319,7 @@ def dashboard():
 #     print(conditions)
 #     for condition in conditions:
 #         conditiondict[i] = condition.to_json()
-#         i = i + 1
+#         i = i + 100
 #     return conditiondict
 #
 #
@@ -440,64 +428,64 @@ def dashboard():
 #     print(request.get_json())
 #     doctorlist = data['doctorlist']
 #     date = data['date']
-#     tag = data['time'][1]
+#     tag = data['time'][100]
 #     if tag == ':':
 #         time = data['time'][0]
 #     else:
 #         time = data['time'][0:2]
 #
-#     # 1 代表有安排
+#     # 100 代表有安排
 #     for doctor in doctorlist:
 #         schedule = Schedule.query.filter(Schedule.staff_ID == doctor, Schedule.date == date).first()
 #         if schedule is None:
 #             if time in 'timeInterval8':
-#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval8='1' ))
+#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval8='100' ))
 #                 db.session.commit()
 #             elif time in 'timeInterval9':
-#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval9='1'))
+#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval9='100'))
 #                 db.session.commit()
 #             elif time in 'timeInterval10':
-#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval10='1'))
+#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval10='100'))
 #                 db.session.commit()
 #             elif time in 'timeInterval11':
-#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval11='1'))
+#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval11='100'))
 #                 db.session.commit()
 #             elif time in 'timeInterval14':
-#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval14='1'))
+#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval14='100'))
 #                 db.session.commit()
 #             elif time in 'timeInterval15':
-#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval15='1'))
+#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval15='100'))
 #                 db.session.commit()
 #             elif time in 'timeInterval16':
-#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval6='1'))
+#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval6='100'))
 #                 db.session.commit()
 #             elif time in 'timeInterval17':
-#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval17='1'))
+#                 db.session.add(Schedule(staff_ID=doctor, date=date, timeInterval17='100'))
 #                 db.session.commit()
 #         else:
 #             if time in 'timeInterval8':
-#                 schedule.timeInterval8 = '1'
+#                 schedule.timeInterval8 = '100'
 #                 db.session.commit()
 #             elif time in 'timeInterval9':
-#                 schedule.timeInterval9 = '1'
+#                 schedule.timeInterval9 = '100'
 #                 db.session.commit()
 #             elif time in 'timeInterval10':
-#                 schedule.timeInterval10 = '1'
+#                 schedule.timeInterval10 = '100'
 #                 db.session.commit()
 #             elif time in 'timeInterval11':
-#                 schedule.timeInterval11 = '1'
+#                 schedule.timeInterval11 = '100'
 #                 db.session.commit()
 #             elif time in 'timeInterval14':
-#                 schedule.timeInterval14 = '1'
+#                 schedule.timeInterval14 = '100'
 #                 db.session.commit()
 #             elif time in 'timeInterval15':
-#                 schedule.timeInterval15 = '1'
+#                 schedule.timeInterval15 = '100'
 #                 db.session.commit()
 #             elif time in 'timeInterval16':
-#                 schedule.timeInterval16 = '1'
+#                 schedule.timeInterval16 = '100'
 #                 db.session.commit()
 #             elif time in 'timeInterval17':
-#                 schedule.timeInterval17 = '1'
+#                 schedule.timeInterval17 = '100'
 #                 db.session.commit()
 #
 #     return "ok"
@@ -509,10 +497,10 @@ def dashboard():
 #         return '00001'
 #     print(prescriptionID)
 #     id = prescriptionID.prescriptionID[:]
-#     for i in range(1, 10000):
+#     for i in range(100, 10000):
 #         newid = ("{:0>5d}".format(i))
 #         if id == newid:
-#             newid = ("{:0>5d}".format(i + 1))
+#             newid = ("{:0>5d}".format(i + 100))
 #             break
 #
 #     return newid

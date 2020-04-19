@@ -5,7 +5,7 @@ from .config import Config
 db = SQLAlchemy()
 
 def create_app():
-    app = Flask(__name__,static_url_path='')
+    app = Flask(__name__)
 
     app.config.from_object(Config)
     app.debug = True
@@ -22,3 +22,4 @@ def create_app():
     # app.register_blueprint(bp_testresult, url_prfix='/testresult')
 
     return app
+

@@ -115,8 +115,8 @@
 <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href=".."><img src="../../static/images/logo.png" alt="Logo"></a>
-                    <a class="navbar-brand hidden" href=".."><img src="../../static/images/logo2.png" alt="Logo"></a>
+                    <a class="navbar-brand" href=".."><img src="{{url_for('static',filename='images/logo.png')}}" alt="Logo"></a>
+                    <a class="navbar-brand hidden" href=".."><img src="{{url_for('static',filename='images/logo2.png')}}" alt="Logo"></a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
             </div>
@@ -161,7 +161,7 @@
                             <div class="dropdown-menu" aria-labelledby="message">
                                 <p class="red">You have 4 Mails</p>
                                 <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="../../static/images/avatar/1.jpg"></span>
+                                    <span class="photo media-left"><img alt="avatar" src="{{url_for('static',filename='images/avatar/1.jpg')}}"></span>
                                     <div class="message media-body">
                                         <span class="name float-left">Jonathan Smith</span>
                                         <span class="time float-right">Just now</span>
@@ -169,7 +169,7 @@
                                     </div>
                                 </a>
                                 <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="../../static/images/avatar/2.jpg"></span>
+                                    <span class="photo media-left"><img alt="avatar" src="{{url_for('static',filename='images/avatar/2.jpg')}}"></span>
                                     <div class="message media-body">
                                         <span class="name float-left">Jack Sanders</span>
                                         <span class="time float-right">5 minutes ago</span>
@@ -177,7 +177,7 @@
                                     </div>
                                 </a>
                                 <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="../../static/images/avatar/3.jpg"></span>
+                                    <span class="photo media-left"><img alt="avatar" src="{{url_for('static',filename='images/avatar/3.jpg')}}"></span>
                                     <div class="message media-body">
                                         <span class="name float-left">Cheryl Wheeler</span>
                                         <span class="time float-right">10 minutes ago</span>
@@ -185,7 +185,7 @@
                                     </div>
                                 </a>
                                 <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="../../static/images/avatar/4.jpg"></span>
+                                    <span class="photo media-left"><img alt="avatar" src="{{url_for('static',filename='images/avatar/4.jpg')}}"></span>
                                     <div class="message media-body">
                                         <span class="name float-left">Rachel Santos</span>
                                         <span class="time float-right">15 minutes ago</span>
@@ -198,7 +198,7 @@
 
                     <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="../../static/images/admin.jpg" alt="User Avatar">
+                            <img class="user-avatar rounded-circle" src="{{url_for('static',filename='images/admin.jpg')}}" alt="User Avatar">
                         </a>
 
                         <div class="user-menu dropdown-menu">
@@ -231,6 +231,8 @@
                         <div class="page-header float-right">
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
+                                    <button type="button" class="btn btn-success">Real Time Coverage</button>
+                                    <p>&nbsp;</p>
                                     <button type="button" class="btn btn-danger">Stop Testing</button>
                                 </ol>
                             </div>
@@ -294,7 +296,7 @@
                                     <h3 class="mb-0 fw-r">
                                         <span id="total-path" class="count">6569</span>
                                     </h3>
-                                    <p class="text-light mt-1 m-0">>Total Path</p>
+                                    <p class="text-light mt-1 m-0">Total Path</p>
                                 </div><!-- /.card-left -->
 
                                 <div class="card-right float-right text-right">
@@ -330,11 +332,11 @@
 <!--                    <div class="col-sm-6 col-lg-3">-->
 <!--                        <div class="card text-white bg-flat-color-2">-->
 <!--                            <div class="card-body">-->
-<!--                                <div class="card-left pt-1 float-left">-->
+<!--                                <div class="card-left pt-100 float-left">-->
 <!--                                    <h3 class="mb-0 fw-r">-->
 <!--                                        <span class="count">1490</span>-->
 <!--                                    </h3>-->
-<!--                                    <p class="text-light mt-1 m-0">New project</p>-->
+<!--                                    <p class="text-light mt-100 m-0">New project</p>-->
 <!--                                </div>&lt;!&ndash; /.card-left &ndash;&gt;-->
 
 <!--                                <div class="card-right float-right text-right">-->
@@ -477,148 +479,165 @@
                         </div>
                     </div>
 
-
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-widget-four">
+                                    <div class="stat-icon dib">
+                                        <i class="ti-stats-up text-muted"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="text-left dib">
+                                            <div class="stat-heading">Exec Speed</div>
+                                            <span id="exec-speed">87500</span>
+                                            <span>/SEC</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
                 </div><!-- .row -->
 
-                <div class="col-sm-12 mb-4">
-                        <div class="card-group">
-                            <div class="card col-md-6 no-padding ">
-                                <div class="card-body">
-                                    <div class="h1 text-muted text-right mb-4">
-                                        <i class="fa fa-users"></i>
-                                    </div>
-
-                                    <div class="h4 mb-0">
-                                        <span id="exec-speed">87500</span>
-                                        <span>/SEC</span>
-                                    </div>
-
-                                    <small class="text-muted text-uppercase font-weight-bold">ExecSpeed</small>
-                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-1" style="width: 40%; height: 5px;"></div>
-                                </div>
-                            </div>
-                            <div class="card col-md-6 no-padding ">
-                                <div class="card-body">
-                                    <div class="h1 text-muted text-right mb-4">
-                                        <i class="fa fa-user-plus"></i>
-                                    </div>
-                                    <div class="h4 mb-0">
-                                        <span id="now-processing" class="count">385</span>
-                                    </div>
-                                    <small class="text-muted text-uppercase font-weight-bold">Now Processing</small>
-                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-2" style="width: 40%; height: 5px;"></div>
-                                </div>
-                            </div>
-                            <div class="card col-md-6 no-padding ">
-                                <div class="card-body">
-                                    <div class="h1 text-muted text-right mb-4">
-                                        <i class="fa fa-cart-plus"></i>
-                                    </div>
-                                    <div class="h4 mb-0">
-                                        <span id="paths-timeout" class="count">1238</span>
-                                    </div>
-                                    <small class="text-muted text-uppercase font-weight-bold">Paths Time out</small>
-                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-3" style="width: 40%; height: 5px;"></div>
-                                </div>
-                            </div>
-                            <div class="card col-md-6 no-padding ">
-                                <div class="card-body">
-                                    <div class="h1 text-muted text-right mb-4">
-                                        <i class="fa fa-pie-chart coun"></i>
-                                    </div>
-                                    <div class=" mb-0">
-                                        <span id="map-denisty-above">0.01</span>
-                                        <span>%/</span>
-                                        <span id="map-denisty-under">0.01</span>
-                                         <span>%</span>
-                                    </div>
-                                    <small class="text-muted text-uppercase font-weight-bold">Map denisty</small>
-                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-4" style="width: 40%; height: 5px;"></div>
-                                </div>
-                            </div>
-                            <div class="card col-md-6 no-padding ">
-                                <div class="card-body">
-                                    <div class="h1 text-muted text-right mb-4">
-                                        <i class="fa fa-clock-o"></i>
-                                    </div>
-                                    <span id="count-coverage" >1.33</span>
-                                    <span>bits/tuple</span><br>
-                                    <small class="text-muted text-uppercase font-weight-bold">Count coverage</small>
-                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-5" style="width: 40%; height: 5px;"></div>
-                                </div>
-                            </div>
-<!--                            <div class="card col-md-6 no-padding ">-->
-<!--                                <div class="card-body">-->
-<!--                                    <div class="h1 text-muted text-right mb-4">-->
-<!--                                        <i class="fa fa-comments-o"></i>-->
-<!--                                    </div>-->
-<!--                                    <div class="h4 mb-0">-->
-<!--                                        <span class="count">972</span>-->
-<!--                                    </div>-->
-<!--                                    <small class="text-muted text-uppercase font-weight-bold">COMMENTS</small>-->
-<!--                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-1" style="width: 40%; height: 5px;"></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-                        </div>
-                    </div>
-
-                <div class="row">
-<!--                    <div class="col-lg-6">-->
-<!--                        <div class="card">-->
-<!--                            <div class="card-body">-->
-<!--                                <h4 class="mb-3">Real Chart</h4>-->
-<!--                                <div class="flot-container">-->
-<!--                                    <div id="cpu-load" class="cpu-load"></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>&lt;!&ndash; /# column &ndash;&gt;-->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <strong class="card-title">Findings in depth:</strong>
-                            </div>
-                            <div class="card-body">
-                                <div>
-                                    <label>Favored paths:</label>
-                                    <span>aaa</span>
-                                </div>
-                                <div>
-                                    <label>New edges on :</label>
-                                    <span>aaa</span>
-                                </div>
-                                <div>
-                                    <label>Total time outs</label>
-                                    <span>aaa</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <strong class="card-title">Path Geometry</strong>
-                            </div>
-                            <div class="card-body">
-                                <div>
-                                    <label>Levels:</label>
-                                    <span>aaa</span>
-                                </div>
-                                <div>
-                                    <label>Pending:</label>
-                                    <span>aaa</span>
-                                </div>
-                                <div>
-                                    <label>Pend fav:</label>
-                                    <span>aaa</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{#                <div class="col-sm-12 mb-4">#}
+{#                        <div class="card-group">#}
+{#                            <div class="card col-md-6 no-padding ">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="h1 text-muted text-right mb-4">#}
+{#                                        <i class="fa fa-users"></i>#}
+{#                                    </div>#}
+{##}
+{#                                    <div class="h4 mb-0">#}
+{#                                        <span id="exec-speed">87500</span>#}
+{#                                        <span>/SEC</span>#}
+{#                                    </div>#}
+{##}
+{#                                    <small class="text-muted text-uppercase font-weight-bold">ExecSpeed</small>#}
+{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-100" style="width: 40%; height: 5px;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="card col-md-6 no-padding ">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="h1 text-muted text-right mb-4">#}
+{#                                        <i class="fa fa-user-plus"></i>#}
+{#                                    </div>#}
+{#                                    <div class="h4 mb-0">#}
+{#                                        <span id="now-processing" class="count">385</span>#}
+{#                                    </div>#}
+{#                                    <small class="text-muted text-uppercase font-weight-bold">Now Processing</small>#}
+{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-2" style="width: 40%; height: 5px;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="card col-md-6 no-padding ">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="h1 text-muted text-right mb-4">#}
+{#                                        <i class="fa fa-cart-plus"></i>#}
+{#                                    </div>#}
+{#                                    <div class="h4 mb-0">#}
+{#                                        <span id="paths-timeout" class="count">1238</span>#}
+{#                                    </div>#}
+{#                                    <small class="text-muted text-uppercase font-weight-bold">Paths Time out</small>#}
+{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-3" style="width: 40%; height: 5px;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="card col-md-6 no-padding ">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="h1 text-muted text-right mb-4">#}
+{#                                        <i class="fa fa-pie-chart coun"></i>#}
+{#                                    </div>#}
+{#                                    <div class=" mb-0">#}
+{#                                        <span id="map-denisty-above">0.01</span>#}
+{#                                        <span>%/</span>#}
+{#                                        <span id="map-denisty-under">0.01</span>#}
+{#                                         <span>%</span>#}
+{#                                    </div>#}
+{#                                    <small class="text-muted text-uppercase font-weight-bold">Map denisty</small>#}
+{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-4" style="width: 40%; height: 5px;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="card col-md-6 no-padding ">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="h1 text-muted text-right mb-4">#}
+{#                                        <i class="fa fa-clock-o"></i>#}
+{#                                    </div>#}
+{#                                    <span id="count-coverage" >100.33</span>#}
+{#                                    <span>bits/tuple</span><br>#}
+{#                                    <small class="text-muted text-uppercase font-weight-bold">Count coverage</small>#}
+{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-5" style="width: 40%; height: 5px;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#<!--                            <div class="card col-md-6 no-padding ">-->#}
+{#<!--                                <div class="card-body">-->#}
+{#<!--                                    <div class="h1 text-muted text-right mb-4">-->#}
+{#<!--                                        <i class="fa fa-comments-o"></i>-->#}
+{#<!--                                    </div>-->#}
+{#<!--                                    <div class="h4 mb-0">-->#}
+{#<!--                                        <span class="count">972</span>-->#}
+{#<!--                                    </div>-->#}
+{#<!--                                    <small class="text-muted text-uppercase font-weight-bold">COMMENTS</small>-->#}
+{#<!--                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-100" style="width: 40%; height: 5px;"></div>-->#}
+{#<!--                                </div>-->#}
+{#<!--                            </div>-->#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                <div class="row">#}
+{#<!--                    <div class="col-lg-6">-->#}
+{#<!--                        <div class="card">-->#}
+{#<!--                            <div class="card-body">-->#}
+{#<!--                                <h4 class="mb-3">Real Chart</h4>-->#}
+{#<!--                                <div class="flot-container">-->#}
+{#<!--                                    <div id="cpu-load" class="cpu-load"></div>-->#}
+{#<!--                                </div>-->#}
+{#<!--                            </div>-->#}
+{#<!--                        </div>-->#}
+{#<!--                    </div>&lt;!&ndash; /# column &ndash;&gt;-->#}
+{#                    <div class="col-md-4">#}
+{#                        <div class="card">#}
+{#                            <div class="card-header">#}
+{#                                <strong class="card-title">Findings in depth:</strong>#}
+{#                            </div>#}
+{#                            <div class="card-body">#}
+{#                                <div>#}
+{#                                    <label>Favored paths:</label>#}
+{#                                    <span>aaa</span>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <label>New edges on :</label>#}
+{#                                    <span>aaa</span>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <label>Total time outs</label>#}
+{#                                    <span>aaa</span>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div class="col-md-4">#}
+{#                        <div class="card">#}
+{#                            <div class="card-header">#}
+{#                                <strong class="card-title">Path Geometry</strong>#}
+{#                            </div>#}
+{#                            <div class="card-body">#}
+{#                                <div>#}
+{#                                    <label>Levels:</label>#}
+{#                                    <span>aaa</span>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <label>Pending:</label>#}
+{#                                    <span>aaa</span>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <label>Pend fav:</label>#}
+{#                                    <span>aaa</span>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
             </div>
             <!-- .animated -->
         </div>
@@ -631,9 +650,9 @@
                     <div class="col-sm-6">
                         Copyright &copy; 2018 Ela Admin
                     </div>
-                    <div class="col-sm-6 text-right">
-                        More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
-                    </div>
+{#                    <div class="col-sm-6 text-right">#}
+{#                        More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>#}
+{#                    </div>#}
                 </div>
             </div>
         </footer>
@@ -724,7 +743,7 @@ setInterval(function () {
 <!--                        <div class="card">-->
 <!--                            <div class="card-body">-->
 <!--                                <div class="stat-widget-five">-->
-<!--                                    <div class="stat-icon dib flat-color-1">-->
+<!--                                    <div class="stat-icon dib flat-color-100">-->
 <!--                                        <i class="pe-7s-cash"></i>-->
 <!--                                    </div>-->
 <!--                                    <div class="stat-content">-->

@@ -26,7 +26,7 @@ $(function() {
         height: '100'
     })
 
-    $(".bar-colours-1").peity("bar", {
+    $(".bar-colours-100").peity("bar", {
         fill: ["red", "green", "blue"],
         width: '100',
         height: '100'
@@ -49,7 +49,7 @@ $(function() {
         height: '100'
     })
 
-    $(".pie-colours-1").peity("pie", {
+    $(".pie-colours-100").peity("pie", {
         fill: ["cyan", "magenta", "yellow", "black"],
         width: '100',
         height: '100'
