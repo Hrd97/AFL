@@ -111,7 +111,9 @@ class ProjectClass:
     '''
     def getprojectpath(self):
         basepath = self.getbasepath()
+        print(self.projectname)
         project_path = basepath + "/projectfile/" + str(self.userid) + "/" + self.projectname  # 保存路径
+        print('projectpath::' + project_path)
         return project_path
 
     '''
@@ -202,6 +204,27 @@ class ProjectClass:
         print("项目目录" + self.getprojectpath())
         os.mkdir(self.getprojectpath())
         return
+
+
+    def refreshproject(self,path):
+        print(path)
+        print('here')
+        file_path = path+'/afl-out/fuzzer_stats'
+        statdict={}
+        with open(file_path, encoding='utf-8') as file_obj:
+            line = file_obj.readline()
+            while line != '':
+                # print(line)
+                x = line.split(':', 1);  # 以空格为分隔符，分隔成两个
+                statdict[x[0].rstrip()] = x[1].rstrip("\n").strip()
+                line = file_obj.readline()
+
+        return statdict
+
+
+    def getproject(self):
+        return Project.query.filter(Project.userid == self.userid,
+                                    Project.name==self.projectname).first()
 
 class CommentClass:
     def __init__(self, email):

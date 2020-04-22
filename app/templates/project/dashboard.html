@@ -223,7 +223,7 @@
                         <div class="page-header float-left">
                             <div class="page-title">
                                 <h1 id="p-n">{{project.name}}</h1>
-                                <input type="text"  hidden id="p-p" value={{project.path}} >
+                                <input type="text"  hidden id="p-p" value={{project.name}} >
                             </div>
                         </div>
                     </div>
@@ -501,143 +501,7 @@
 
                 </div><!-- .row -->
 
-{#                <div class="col-sm-12 mb-4">#}
-{#                        <div class="card-group">#}
-{#                            <div class="card col-md-6 no-padding ">#}
-{#                                <div class="card-body">#}
-{#                                    <div class="h1 text-muted text-right mb-4">#}
-{#                                        <i class="fa fa-users"></i>#}
-{#                                    </div>#}
-{##}
-{#                                    <div class="h4 mb-0">#}
-{#                                        <span id="exec-speed">87500</span>#}
-{#                                        <span>/SEC</span>#}
-{#                                    </div>#}
-{##}
-{#                                    <small class="text-muted text-uppercase font-weight-bold">ExecSpeed</small>#}
-{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-100" style="width: 40%; height: 5px;"></div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="card col-md-6 no-padding ">#}
-{#                                <div class="card-body">#}
-{#                                    <div class="h1 text-muted text-right mb-4">#}
-{#                                        <i class="fa fa-user-plus"></i>#}
-{#                                    </div>#}
-{#                                    <div class="h4 mb-0">#}
-{#                                        <span id="now-processing" class="count">385</span>#}
-{#                                    </div>#}
-{#                                    <small class="text-muted text-uppercase font-weight-bold">Now Processing</small>#}
-{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-2" style="width: 40%; height: 5px;"></div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="card col-md-6 no-padding ">#}
-{#                                <div class="card-body">#}
-{#                                    <div class="h1 text-muted text-right mb-4">#}
-{#                                        <i class="fa fa-cart-plus"></i>#}
-{#                                    </div>#}
-{#                                    <div class="h4 mb-0">#}
-{#                                        <span id="paths-timeout" class="count">1238</span>#}
-{#                                    </div>#}
-{#                                    <small class="text-muted text-uppercase font-weight-bold">Paths Time out</small>#}
-{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-3" style="width: 40%; height: 5px;"></div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="card col-md-6 no-padding ">#}
-{#                                <div class="card-body">#}
-{#                                    <div class="h1 text-muted text-right mb-4">#}
-{#                                        <i class="fa fa-pie-chart coun"></i>#}
-{#                                    </div>#}
-{#                                    <div class=" mb-0">#}
-{#                                        <span id="map-denisty-above">0.01</span>#}
-{#                                        <span>%/</span>#}
-{#                                        <span id="map-denisty-under">0.01</span>#}
-{#                                         <span>%</span>#}
-{#                                    </div>#}
-{#                                    <small class="text-muted text-uppercase font-weight-bold">Map denisty</small>#}
-{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-4" style="width: 40%; height: 5px;"></div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="card col-md-6 no-padding ">#}
-{#                                <div class="card-body">#}
-{#                                    <div class="h1 text-muted text-right mb-4">#}
-{#                                        <i class="fa fa-clock-o"></i>#}
-{#                                    </div>#}
-{#                                    <span id="count-coverage" >100.33</span>#}
-{#                                    <span>bits/tuple</span><br>#}
-{#                                    <small class="text-muted text-uppercase font-weight-bold">Count coverage</small>#}
-{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-5" style="width: 40%; height: 5px;"></div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#<!--                            <div class="card col-md-6 no-padding ">-->#}
-{#<!--                                <div class="card-body">-->#}
-{#<!--                                    <div class="h1 text-muted text-right mb-4">-->#}
-{#<!--                                        <i class="fa fa-comments-o"></i>-->#}
-{#<!--                                    </div>-->#}
-{#<!--                                    <div class="h4 mb-0">-->#}
-{#<!--                                        <span class="count">972</span>-->#}
-{#<!--                                    </div>-->#}
-{#<!--                                    <small class="text-muted text-uppercase font-weight-bold">COMMENTS</small>-->#}
-{#<!--                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-100" style="width: 40%; height: 5px;"></div>-->#}
-{#<!--                                </div>-->#}
-{#<!--                            </div>-->#}
-{#                        </div>#}
-{#                    </div>#}
-{##}
-{#                <div class="row">#}
-{#<!--                    <div class="col-lg-6">-->#}
-{#<!--                        <div class="card">-->#}
-{#<!--                            <div class="card-body">-->#}
-{#<!--                                <h4 class="mb-3">Real Chart</h4>-->#}
-{#<!--                                <div class="flot-container">-->#}
-{#<!--                                    <div id="cpu-load" class="cpu-load"></div>-->#}
-{#<!--                                </div>-->#}
-{#<!--                            </div>-->#}
-{#<!--                        </div>-->#}
-{#<!--                    </div>&lt;!&ndash; /# column &ndash;&gt;-->#}
-{#                    <div class="col-md-4">#}
-{#                        <div class="card">#}
-{#                            <div class="card-header">#}
-{#                                <strong class="card-title">Findings in depth:</strong>#}
-{#                            </div>#}
-{#                            <div class="card-body">#}
-{#                                <div>#}
-{#                                    <label>Favored paths:</label>#}
-{#                                    <span>aaa</span>#}
-{#                                </div>#}
-{#                                <div>#}
-{#                                    <label>New edges on :</label>#}
-{#                                    <span>aaa</span>#}
-{#                                </div>#}
-{#                                <div>#}
-{#                                    <label>Total time outs</label>#}
-{#                                    <span>aaa</span>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{##}
-{#                    <div class="col-md-4">#}
-{#                        <div class="card">#}
-{#                            <div class="card-header">#}
-{#                                <strong class="card-title">Path Geometry</strong>#}
-{#                            </div>#}
-{#                            <div class="card-body">#}
-{#                                <div>#}
-{#                                    <label>Levels:</label>#}
-{#                                    <span>aaa</span>#}
-{#                                </div>#}
-{#                                <div>#}
-{#                                    <label>Pending:</label>#}
-{#                                    <span>aaa</span>#}
-{#                                </div>#}
-{#                                <div>#}
-{#                                    <label>Pend fav:</label>#}
-{#                                    <span>aaa</span>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
+
             </div>
             <!-- .animated -->
         </div>
@@ -808,3 +672,140 @@ setInterval(function () {
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </div>-->
+{#                <div class="col-sm-12 mb-4">#}
+{#                        <div class="card-group">#}
+{#                            <div class="card col-md-6 no-padding ">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="h1 text-muted text-right mb-4">#}
+{#                                        <i class="fa fa-users"></i>#}
+{#                                    </div>#}
+{##}
+{#                                    <div class="h4 mb-0">#}
+{#                                        <span id="exec-speed">87500</span>#}
+{#                                        <span>/SEC</span>#}
+{#                                    </div>#}
+{##}
+{#                                    <small class="text-muted text-uppercase font-weight-bold">ExecSpeed</small>#}
+{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-100" style="width: 40%; height: 5px;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="card col-md-6 no-padding ">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="h1 text-muted text-right mb-4">#}
+{#                                        <i class="fa fa-user-plus"></i>#}
+{#                                    </div>#}
+{#                                    <div class="h4 mb-0">#}
+{#                                        <span id="now-processing" class="count">385</span>#}
+{#                                    </div>#}
+{#                                    <small class="text-muted text-uppercase font-weight-bold">Now Processing</small>#}
+{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-2" style="width: 40%; height: 5px;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="card col-md-6 no-padding ">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="h1 text-muted text-right mb-4">#}
+{#                                        <i class="fa fa-cart-plus"></i>#}
+{#                                    </div>#}
+{#                                    <div class="h4 mb-0">#}
+{#                                        <span id="paths-timeout" class="count">1238</span>#}
+{#                                    </div>#}
+{#                                    <small class="text-muted text-uppercase font-weight-bold">Paths Time out</small>#}
+{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-3" style="width: 40%; height: 5px;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="card col-md-6 no-padding ">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="h1 text-muted text-right mb-4">#}
+{#                                        <i class="fa fa-pie-chart coun"></i>#}
+{#                                    </div>#}
+{#                                    <div class=" mb-0">#}
+{#                                        <span id="map-denisty-above">0.01</span>#}
+{#                                        <span>%/</span>#}
+{#                                        <span id="map-denisty-under">0.01</span>#}
+{#                                         <span>%</span>#}
+{#                                    </div>#}
+{#                                    <small class="text-muted text-uppercase font-weight-bold">Map denisty</small>#}
+{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-4" style="width: 40%; height: 5px;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="card col-md-6 no-padding ">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="h1 text-muted text-right mb-4">#}
+{#                                        <i class="fa fa-clock-o"></i>#}
+{#                                    </div>#}
+{#                                    <span id="count-coverage" >100.33</span>#}
+{#                                    <span>bits/tuple</span><br>#}
+{#                                    <small class="text-muted text-uppercase font-weight-bold">Count coverage</small>#}
+{#                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-5" style="width: 40%; height: 5px;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#<!--                            <div class="card col-md-6 no-padding ">-->#}
+{#<!--                                <div class="card-body">-->#}
+{#<!--                                    <div class="h1 text-muted text-right mb-4">-->#}
+{#<!--                                        <i class="fa fa-comments-o"></i>-->#}
+{#<!--                                    </div>-->#}
+{#<!--                                    <div class="h4 mb-0">-->#}
+{#<!--                                        <span class="count">972</span>-->#}
+{#<!--                                    </div>-->#}
+{#<!--                                    <small class="text-muted text-uppercase font-weight-bold">COMMENTS</small>-->#}
+{#<!--                                    <div class="progress progress-xs mt-3 mb-0 bg-flat-color-100" style="width: 40%; height: 5px;"></div>-->#}
+{#<!--                                </div>-->#}
+{#<!--                            </div>-->#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                <div class="row">#}
+{#<!--                    <div class="col-lg-6">-->#}
+{#<!--                        <div class="card">-->#}
+{#<!--                            <div class="card-body">-->#}
+{#<!--                                <h4 class="mb-3">Real Chart</h4>-->#}
+{#<!--                                <div class="flot-container">-->#}
+{#<!--                                    <div id="cpu-load" class="cpu-load"></div>-->#}
+{#<!--                                </div>-->#}
+{#<!--                            </div>-->#}
+{#<!--                        </div>-->#}
+{#<!--                    </div>&lt;!&ndash; /# column &ndash;&gt;-->#}
+{#                    <div class="col-md-4">#}
+{#                        <div class="card">#}
+{#                            <div class="card-header">#}
+{#                                <strong class="card-title">Findings in depth:</strong>#}
+{#                            </div>#}
+{#                            <div class="card-body">#}
+{#                                <div>#}
+{#                                    <label>Favored paths:</label>#}
+{#                                    <span>aaa</span>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <label>New edges on :</label>#}
+{#                                    <span>aaa</span>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <label>Total time outs</label>#}
+{#                                    <span>aaa</span>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div class="col-md-4">#}
+{#                        <div class="card">#}
+{#                            <div class="card-header">#}
+{#                                <strong class="card-title">Path Geometry</strong>#}
+{#                            </div>#}
+{#                            <div class="card-body">#}
+{#                                <div>#}
+{#                                    <label>Levels:</label>#}
+{#                                    <span>aaa</span>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <label>Pending:</label>#}
+{#                                    <span>aaa</span>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <label>Pend fav:</label>#}
+{#                                    <span>aaa</span>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}

@@ -317,13 +317,28 @@
                                             <td><span class="days">{{project.uploadtime}}</span></td>
                                             <td><span class="name">{{project.status}}</span></td>
                                              <td>
-                                                 <form action="{{url_for('project.dashboard')}}" method="post">
-                                                    <input type="hidden" name="projectname" value={{project.name}}  />
-                                                     <button type="submit" class="badge badge-complete" >
+                                                 {% if project.status == 'initial' %}
+                                                    <form action="" method="post">
+                                                        <input type="hidden" name="projectname" value={{project.name}}  />
+                                                         <button type="submit" class="badge badge-complete" >
+                                                                Nothing
+                                                        </button>
+                                                     </form>
+                                                 {% elif project.status == 'runing' %}
+                                                    <form action="{{url_for('project.dashboard')}}" method="post">
+                                                        <input type="hidden" name="projectname" value={{project.name}}  />
+                                                         <button type="submit" class="badge badge-complete" >
+                                                                Dashboard
+                                                         </button>
+                                                     </form>
+                                                 {% elif project.status == 'end' %}
+                                                     <form action="{{url_for('project.result')}}" method="post">
+                                                         <input type="hidden" name="projectname" value={{project.name}}  />
+                                                        <button type="submit" class="badge badge-complete" >
                                                                 RESULT
-                                                     </button>
-
-                                                 </form>
+                                                        </button>
+                                                      </form>
+                                                {% endif %}
 
                                             </td>
 {#                                            <td><a href="{{ url_for('project.dashboard') }}">#}
