@@ -150,26 +150,27 @@ def result():
     project = ProjectClass(projectName, session["user_id"])
     return render_template('project/result.html', project=project.getproject())
 
+
 @bp_project.route('/project/crashresult', methods=['GET', 'POST'])
 def crashresult():
-    projectName = request.form["projectname"]
-    print(projectName)
-    project = ProjectClass(projectName, session["user_id"])
-    return render_template('project/result.html', project=project.getproject())
+
+    return render_template('project/crash-result.html')
 
 @bp_project.route('/project/pathresult', methods=['GET', 'POST'])
 def pathresult():
-    projectName = request.form["projectname"]
-    print(projectName)
-    project = ProjectClass(projectName, session["user_id"])
-    return render_template('project/result.html', project=project.getproject())
 
-@bp_project.route('/project/hangresult', methods=['GET', 'POST'])
+    return render_template('project/path-result.html')
+
+@bp_project.route('/project/public', methods=['GET', 'POST'])
 def hangresult():
-    projectName = request.form["projectname"]
-    print(projectName)
-    project = ProjectClass(projectName, session["user_id"])
-    return render_template('project/result.html', project=project.getproject())
+
+    return render_template('project/hang-result.html')
+
+@bp_project.route('/project/publicproject', methods=['GET', 'POST'])
+def publicproject():
+    project=ProjectClass()
+    publicproject=project.getpublicproject()
+    return render_template('publicproject/publicproject.html', project=publicproject)
 
     # i = 0
     # print(prescription)

@@ -18,8 +18,8 @@ def create_app():
     from .project import bp_project
     app.register_blueprint(bp_project, url_prfix='/project')
     #
-    # from .testresult import bp_testresult
-    # app.register_blueprint(bp_testresult, url_prfix='/testresult')
+    # from .publicproject import bp_testresult
+    # app.register_blueprint(bp_testresult, url_prfix='/publicproject')
 
     return app
 

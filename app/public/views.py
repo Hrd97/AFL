@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash
 from . import bp_hr
 from ..model import MedicalStaff, Department, db, Post
 
-@bp_hr.route('/testresult/homepage')
+@bp_hr.route('/publicproject/homepage')
 def homepage():
     #Patient.query.filter(Patient.phoneNumber == phoneNumber).first()
     #session['user_id'] = 'H004'
@@ -15,7 +15,7 @@ def homepage():
     user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
     return render_template('hrAdmin/login.html', user=user,notice=notice)
 
-@bp_hr.route('/testresult/post',methods=['GET', 'POST'])
+@bp_hr.route('/publicproject/post',methods=['GET', 'POST'])
 def post():
     user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
     if request.method == "POST":
@@ -28,7 +28,7 @@ def post():
         return render_template('hrAdmin/post.html',user=user)
     return render_template('hrAdmin/post.html',user=user)
 
-@bp_hr.route('/testresult/profile',methods=['GET', 'POST'])
+@bp_hr.route('/publicproject/profile',methods=['GET', 'POST'])
 def profile():
     if request.method == 'POST':
         name = request.form['name']
@@ -45,13 +45,13 @@ def profile():
             user.password = generate_password_hash(password)
         user.email = email
         db.session.commit()
-        return redirect(url_for('testresult.profile'))
+        return redirect(url_for('publicproject.profile'))
 
     user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
     print(user.name)
     return render_template('hrAdmin/profile.html', user=user)
 
-@bp_hr.route('/testresult/accountManage', methods=['GET', 'POST'])
+@bp_hr.route('/publicproject/accountManage', methods=['GET', 'POST'])
 def account():
     if request.method == "POST":
         print(request.form)
@@ -100,7 +100,7 @@ def account():
             else:
                 pass
             print("9")
-            #return redirect(url_for('testresult.account', staffInfo=staffInfo))
+            #return redirect(url_for('publicproject.account', staffInfo=staffInfo))
             user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
             return render_template('hrAdmin/accountManage.html', staffInfo=staffInfo,user=user)
             print("10")
@@ -145,8 +145,8 @@ def account():
 
         staffInfo = MedicalStaff.query.all()
         user = MedicalStaff.query.filter(MedicalStaff.StaffID == session["user_id"]).first()
-        return redirect(url_for('testresult.account', staffInfo=staffInfo, user=user))
-        #return redirect(url_for('testresult.account'))
+        return redirect(url_for('publicproject.account', staffInfo=staffInfo, user=user))
+        #return redirect(url_for('publicproject.account'))
         #return render_template('hrAdmin/accountManage.html', staffInfo=staffInfo)
 
     #print(request.form['add_name'])

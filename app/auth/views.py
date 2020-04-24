@@ -37,11 +37,11 @@ def login():
         password = request.form["password"]
         print(email)
         print(password)
-        # #whether it is testresult/ administor
+        # #whether it is publicproject/ administor
         # if userID == 'admin' and password=='a':
         #     session.clear()
         #     session["user_id"] = userID
-        #     return redirect(url_for('testresult.homepage'))
+        #     return redirect(url_for('publicproject.homepage'))
         newuser=UserClass(email)
         error = None
         error = newuser.check_user(password)
