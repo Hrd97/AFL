@@ -158,7 +158,7 @@ def result():
 
 @bp_project.route('/project/crashresult', methods=['GET', 'POST'])
 def crashresult():
-
+    new=0
     return render_template('project/crash-result.html')
 
 @bp_project.route('/project/pathresult', methods=['GET', 'POST'])
