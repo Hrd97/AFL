@@ -1,3 +1,3 @@
 from flask import Blueprint
-bp_testresult = Blueprint('publicproject', __name__)
+bp_public = Blueprint('public', __name__)
 from . import views

@@ -5,13 +5,14 @@ import app
 from . import bp_project
 import datetime
 from ..model import db, User, Project
-from ..cLass import UserClass, ProjectClass
+from ..cLass import UserClass, ProjectClass,CommentClass,LikeClass
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 maindir = os.path.dirname(basedir)
 projectdir= os.path.dirname(os.path.dirname(basedir))+"/projectfile"
 dt = datetime.datetime.now().strftime("%Y-%m-%d")
+dtime= datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 @bp_project.route('/project/homepage', methods=['GET', 'POST'])
 def homepage():
     dt = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -49,8 +50,6 @@ def newproject():
 
 
     return redirect(url_for('project.homepage'))
-
-
 
 
 @bp_project.route('/project/run', methods=['POST'])
@@ -93,9 +92,6 @@ def run():
 
     return redirect(url_for('project.homepage'))
 
-
-
-
 @bp_project.route('/project/refresh', methods=['POST'])
 def refresh():
     data = request.get_json()
@@ -116,7 +112,6 @@ def refresh():
     #
     # return statdict
 
-
 @bp_project.route('/project/newproject', methods=['POST'])
 def new():
     pname = request.form["pname"]
@@ -128,27 +123,37 @@ def new():
     print("ok?")
     return redirect(url_for('project.homepage'))
 
-
-
-
-
 '''
 dashboard  这里需要改造。
 '''
 @bp_project.route('/project/dashboard', methods=['GET','POST'])
 def dashboard():
-    projectName = request.form["projectname"]
-    print(projectName)
-    project = ProjectClass(projectName, session["user_id"])
+    projectid = request.form["projectid"]
+    print(projectid)
+    project = ProjectClass.getfromid(projectid)
     return render_template('project/dashboard.html', project=project.getproject())
 
 
 @bp_project.route('/project/result', methods=['GET', 'POST'])
 def result():
-    projectName = request.form["projectname"]
-    print(projectName)
-    project = ProjectClass(projectName, session["user_id"])
-    return render_template('project/result.html', project=project.getproject())
+    projectid = request.form["projectid"]
+    #print(projectid)
+    project = ProjectClass.getfromid(projectid)
+    user=UserClass.getfromid(session['user_id']).myprofile()
+    comment=CommentClass(projectid)
+
+    likes=LikeClass().getlike(projectid,session['user_id'])
+    print(likes)
+    dict={}
+    dict['cid']=[]
+
+    for like in likes:
+        dict['cid'].append(like.commentid)
+
+    control=0
+    return render_template('project/result.html', project=project.getproject(),user=user,
+                           comments=comment.getComment(),likes=likes,control=control,dict=dict
+                           )
 
 
 @bp_project.route('/project/crashresult', methods=['GET', 'POST'])
@@ -166,12 +171,57 @@ def hangresult():
 
     return render_template('project/hang-result.html')
 
-@bp_project.route('/project/publicproject', methods=['GET', 'POST'])
-def publicproject():
-    project=ProjectClass()
-    publicproject=project.getpublicproject()
-    return render_template('publicproject/publicproject.html', project=publicproject)
+# @bp_project.route('/project/publicproject', methods=['GET', 'POST'])
+# def publicproject():
+#     project = ProjectClass()
+#     publicproject=project.getpublicproject()
+#     print('here')
+#     return render_template('publicproject/publicproject.html', project=publicproject)
 
+@bp_project.route('/project/desc', methods=['GET', 'POST'])
+def desc():
+    data = request.get_json()
+    project = ProjectClass.getfromid(data['projectid'])
+    print(data)
+    project.desc(data['desc'],data['projectid'])
+    return data
+
+@bp_project.route('/project/comment', methods=['GET', 'POST'])
+def comment():
+    data = request.get_json()
+    print(data)
+    project = ProjectClass.getfromid(data['projectid'])
+    project.addcomment()
+    comment=CommentClass(data['projectid'])
+
+    print(data)
+
+    content=data['comment']
+    repliedname=None
+
+
+    reply={}
+    reply['date']=dtime
+    reply['username']=data['username']
+    reply['replied'],reply['content']=comment.split(data['comment'])
+
+    comment.savecomment(data['username'], reply['content'], reply['replied'])
+
+    return reply
+
+@bp_project.route('/project/like', methods=['GET', 'POST'])
+def like():
+    data = request.get_json()
+    print(data)
+    like=LikeClass()
+    like.like(data['commentid'],data['userid'], data['projectid'],data['add'])
+    comment=CommentClass(data['projectid'])
+    comment.addstar(data['commentid'],data['add'])
+    reply={}
+
+    reply['commentid']=data['commentid']
+    reply['userid']=data['userid']
+    return reply
     # i = 0
     # print(prescription)
     # for medicine in prescription:

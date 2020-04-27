@@ -20,40 +20,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
 
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
-
-    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/style.css') }}"/>
+   <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/style.css') }}"/>
     <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/cs-skin-elastic.css') }}"/>
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
-    <script>
-        function hide(a) {
-            if (document.getElementById(a).style.display !== 'none')
-            {
-                document.getElementById(a).style.display = 'none';
-            }
-            else
-            {
-                document.getElementById(a).style.display = '';
-            }
-        }
-    </script>
-    <style>
-        div.rating_wraper
-         {width: 4em;
-        height: 4em;
-        -webkit-border-radius: 50%;
-        border-radius: 50%;
-        border: 3px solid #000;
-        -webkit-box-sizing: content-box;
-        box-sizing: content-box;
-        margin: 0 auto;
-        line-height: 4em;
-        text-align: center;}
-    </style>
 
 </head>
 <body>
@@ -191,94 +163,164 @@
         </header><!-- /header -->
         <!-- Header-->
 
-        <div class="breadcrumbs">
-            <div class="breadcrumbs-inner">
-                <div class="row m-0">
-                    <div class="col-sm-4">
-                        <div class="page-header float-left">
-                            <div class="page-title">
-                                <h1>Dashboard</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-8">
-                        <div class="page-header float-right">
-                            <div class="page-title">
-                                <ol class="breadcrumb text-right">
-                                    <li><a href="#">Dashboard</a></li>
-                                    <li><a href="#">Map</a></li>
-                                    <li class="active">Vector map</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <<div class="content">
+        <div class="content">
             <div class="animated fadeIn">
-             <div class="row">
+                <div class="row">
+                   {% for project in projects %}
+
+                    <div class="col-md-4">
+                        <section class="card">
+                            <div class="twt-feed blue-bg">
+                                <div class="corner-ribon black-ribon">
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+                                <div class="fa fa-twitter wtt-mark"></div>
+
+                                <div class="media">
+                                    <a href="#">
+                                        <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="images/admin.jpg">
+                                    </a>
+                                    <div class="media-body">
+                                        <h2 class="text-white display-6">{{ project.name }}</h2>
+                                        <p class="text-light">Owner</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="weather-category twt-category">
+                                <ul>
+                                    <li class="active">
+                                        <h5>{{project.star}}</h5>
+                                        Star
+                                    </li>
+                                    <li>
+                                        <h5>{{project.comment}}</h5>
+                                        Comment
+                                    </li>
+                                    <li>
+                                        <h5>{{project.uploadtime}} </h5>
+                                        uploadtime
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="twt-write col-sm-12">
+                                <textarea placeholder="hahahahahnnewnewlhahahahahnnewnewlhaha" rows="3" class="form-control t-text-area"></textarea>
+                            </div>
+                            <footer class="twt-footer">
+
+                                <form action="{{url_for('project.result')}}" method="post">
+                                    <input type="hidden" name="projectid" value={{project.id}}  />
+                                    <button type="submit" class="badge badge-complete" >
+                                                                MORE
+                                    </button>
+                                </form>
+                            </footer>
+                        </section>
+                    </div>
+
+                    {% endfor %}
+
+                    <div class="col-md-4">
+                        <section class="card">
+                            <div class="twt-feed blue-bg">
+                                <div class="corner-ribon black-ribon">
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+                                <div class="fa fa-twitter wtt-mark"></div>
+
+                                <div class="media">
+                                    <a href="#">
+                                        <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="images/admin.jpg">
+                                    </a>
+                                    <div class="media-body">
+                                        <h2 class="text-white display-6">Jim Doe</h2>
+                                        <p class="text-light">Project Manager</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="weather-category twt-category">
+                                <ul>
+                                    <li class="active">
+                                        <h5>750</h5>
+                                        Tweets
+                                    </li>
+                                    <li>
+                                        <h5>865</h5>
+                                        Following
+                                    </li>
+                                    <li>
+                                        <h5>3645</h5>
+                                        Followers
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="twt-write col-sm-12">
+                                <textarea placeholder="Write your Tweet and Enter" rows="1" class="form-control t-text-area"></textarea>
+                            </div>
+                            <footer class="twt-footer">
+                                <a href="#"><i class="fa fa-camera"></i></a>
+                                <a href="#"><i class="fa fa-map-marker"></i></a>
+                                New Castle, UK
+                                <span class="pull-right">
+                                    32
+                                </span>
+                            </footer>
+                        </section>
+                    </div>
+
+                    <div class="col-md-4">
+                        <section class="card">
+                            <div class="twt-feed blue-bg">
+                                <div class="corner-ribon black-ribon">
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="fa fa-twitter wtt-mark"></div>
+
+                                <div class="media">
+                                    <a href="#">
+                                        <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="images/admin.jpg">
+                                    </a>
+                                    <div class="media-body">
+                                        <h2 class="text-white display-6">Jim Doe</h2>
+                                        <p class="text-light">Project Manager</p>
+                                    </div>
+                                </div>
 
 
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-header" style="text-align: center;background-color: #00aced">
-                            <h4>Case List</h4>
-                        </div>
-                        <div style="text-align: center">
-                            <span>sdfg</span><br>
-                            <span>sdfg</span>
-                            <span>sdfg</span>
 
-                        </div>
+                            </div>
+                            <div class="weather-category twt-category">
+                                <ul>
+                                    <li class="active">
+                                        <h5>750</h5>
+                                        Tweets
+                                    </li>
+                                    <li>
+                                        <h5>865</h5>
+                                        Following
+                                    </li>
+                                    <li>
+                                        <h5>3645</h5>
+                                        Followers
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="twt-write col-sm-12">
+                                <textarea placeholder="Write your Tweet and Enter" rows="1" class="form-control t-text-area"></textarea>
+                            </div>
+                            <footer class="twt-footer">
+                                <a href="#"><i class="fa fa-camera"></i></a>
+                                <a href="#"><i class="fa fa-map-marker"></i></a>
+                                New Castle, UK
+                                <span class="pull-right">
+                                    32
+                                </span>
+                            </footer>
+                        </section>
                     </div>
-                </div>
-                 <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-header" style="text-align: center;background-color: #ffb22b">
-                            <h4>Case content</h4>
-                        </div>
-                         <div class="card-body" style="text-align: center">
-<!--                            <textarea style=" width:100%;height:100%:border:0none;outline:none;"></textarea>-->
-                            <span>dsghrdtjfgnjdbsfiauhojpkefl;wmrgndfi;jopsalfk;ghioadlsmknfiokpad;'lmnf/b;ho'izp
-                            ojdslnfsk;owie'aps[fipkw;'lnohgipaorudi
-                            [ks;lmfnkvhoigprouw;feklsdmnohipeu9rofq;klemalknsfpi'</span>
-                        </div>
-                    </div>
-                </div>
-                 <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-header" style="text-align: center;background-color: #d61f1f">
-                            <h4>Falme graph</h4>
-                        </div>
-                        <div class="card-body" style="text-align: center">
-<!--                            <textarea style=" width:100%;height:100%:border:0none;outline:none;"></textarea>-->
-                            <span>dsghrdtjfgnjdbsfiauhojpkefl;wmrgndfi;jopsalfk;ghioadlsmknfiokpad;'lmnf/b;ho'izp
-                            ojdslnfsk;owie'aps[fipkw;'lnohgipaorudi
-                            [ks;lmfnkvhoigprouw;feklsdmnohipeu9rofq;klemalknsfpi'</span>
-                        </div>
-                    </div>
-                </div>
-                 <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-header" style="text-align: center;background-color: #ffb22b">
-                            <h4>Case content</h4>
-                        </div>
-                         <div class="card-body" style="text-align: center">
-<!--                            <textarea style=" width:100%;height:100%:border:0none;outline:none;"></textarea>-->
-                            <span>dsghrdtjfgnjdbsfiauhojpkefl;wmrgndfi;jopsalfk;ghioadlsmknfiokpad;'lmnf/b;ho'izp
-                            ojdslnfsk;owie'aps[fipkw;'lnohgipaorudi
-                            [ks;lmfnkvhoigprouw;feklsdmnohipeu9rofq;klemalknsfpi'</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- /# column -->
-            </div>
-            <!-- /# row -->
 
-        </div><!-- .animated -->
-    </div><!-- .content -->
+                </div><!-- .row -->
+            </div><!-- .animated -->
+        </div><!-- .content -->
 
     <div class="clearfix"></div>
 
@@ -295,70 +337,19 @@
         </div>
     </footer>
 
-</div><!-- /#right-panel -->
 
-<!-- Right Panel -->
+    </div><!-- /#right-panel -->
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
-<script src="assets/js/main.js"></script>
+    <!-- Right Panel -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
-<script src="assets/js/vmap.sampledata.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.algeria.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.argentina.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.brazil.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.france.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.germany.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.greece.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.iran.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.iraq.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.russia.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.tunisia.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.europe.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.usa.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.turkey.js"></script>
-<script src="assets/js/init/vector-init.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+    <script src="{{url_for('static', filename='assets/js/main.js')}}" ></script>
+
+
 
 </body>
 </html>
-<!--                                       <div class="alert alert-secondary"  >-->
-<!--                                        This is a success alert—check it out!-->
-<!--                                       <i class="fa fa-thumbs-o-up" style= "float: right"></i>-->
-
-<!--                                        <a style="float: right;color: #00aced" href=""> Reply &nbsp;&nbsp;&nbsp;</a>-->
-<!--                                    </div>-->
-<!--                                <div class="card-header">-->
-<!--                                    <strong class="card-title">Link Color Alerts</strong>-->
-<!--                                </div>-->
-<!--                                <div class="card-body">-->
-<!--                                    <div class="alert alert-primary" role="alert">-->
-<!--                                        This is a primary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.-->
-<!--                                    </div>-->
-<!--                                    <div class="alert alert-secondary" role="alert">-->
-<!--                                        This is a secondary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.-->
-<!--                                    </div>-->
-<!--                                    <div class="alert alert-success" role="alert">-->
-<!--                                        This is a success alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.-->
-<!--                                    </div>-->
-<!--                                    <div class="alert alert-danger" role="alert">-->
-<!--                                        This is a danger alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.-->
-<!--                                    </div>-->
-<!--                                    <div class="alert alert-warning" role="alert">-->
-<!--                                        This is a warning alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.-->
-<!--                                    </div>-->
-<!--                                    <div class="alert alert-info" role="alert">-->
-<!--                                        This is a info alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.-->
-<!--                                    </div>-->
-<!--                                    <div class="alert alert-light" role="alert">-->
-<!--                                        This is a light alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.-->
-<!--                                    </div>-->
-<!--                                    <div class="alert alert-dark" role="alert">-->
-<!--                                        This is a dark alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>

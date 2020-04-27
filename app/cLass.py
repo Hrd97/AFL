@@ -1,13 +1,14 @@
 import datetime
 
 from werkzeug.security import check_password_hash,generate_password_hash
-from .model import db,User,Project
+from .model import db,User,Project,Collect,Comment,Like
 import random
 import smtplib, os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 dt = datetime.datetime.now().strftime("%Y-%m-%d")
+dtime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 class UserClass:
     def __init__(self, email):
         self.email = email
@@ -15,6 +16,7 @@ class UserClass:
     @classmethod
     def getfromid(cls,id):
         user = User.query.filter(User.id == id).first()
+        cls.id=id
         return cls(user.email)
 
     def check_user(self, password):
@@ -91,6 +93,15 @@ class UserClass:
     def myproject(self,id):
         return Project.query.filter(Project.userid == id).all()
 
+    def publicproject(self):
+        return Project.query.filter(Project.visibility == '1').all()
+
+
+    def myprofile(self):
+        return User.query.filter(User.id == self.id).first()
+
+
+
 class ProjectClass:
     def __init__(self, name,userid):
         self.projectname = name
@@ -98,8 +109,9 @@ class ProjectClass:
 
     @classmethod
     def getfromid(cls,id):
-        project = Project.query.filter(Project.id == id,).first()
-        return cls(project.name)
+        cls.id=id
+        project = Project.query.filter(Project.id == id).first()
+        return cls(project.name, project.userid)
     '''
     获取到app的路径 即/Users/darihan/Desktop/AFL
     '''
@@ -226,57 +238,81 @@ class ProjectClass:
         return Project.query.filter(Project.userid == self.userid,
                                     Project.name==self.projectname).first()
 
-class CommentClass:
-    def __init__(self, email):
-        self.email = email
-
-    def check_user(self, password):
-        error = None
-        user = User.query.filter(User.email == self.email).first()
-        if user is None:
-            error = "Incorrect username."
-        elif not check_password_hash(user.password, password):
-            error = "Incorrect password."
-        return error
-
-    def is_exit(self):
-        if User.query.filter(User.email == self.email).first() is not None:
-            return True
-        else:
-            return False
-
-    def register(self,name,password):
-        db.session.add(User(name=name, email=self.email, password=generate_password_hash(password)))
+    def desc(self,content,id):
+        project = Project.query.filter(Project.id == id).first()
+        project.description=content
         db.session.commit()
+        return 1
 
-    def getid(self):
-        user = User.query.filter(User.email == self.email).first()
-        return user.id
+    def addcomment(self):
+        project = Project.query.filter(Project.id == self.id).first()
+        project.comment+=1
+        db.session.commit()
+        return 1
+
+
+class CommentClass:
+    def __init__(self, pid):
+        self.pid = pid
+
+    def getComment(self):
+        comments=Comment.query.filter(Comment.projectid == self.pid).all()
+        return comments
+
+    def savecomment(self, username, content, repliedname):
+        db.session.add(Comment(projectid=self.pid, username=username,
+                               time=dtime, content=content,
+                               repliedname=repliedname,
+                               star=0))
+        db.session.commit()
+        return 0
+
+    def split(self,content):
+        replied=''
+        comment=''
+        print('split')
+        print(content)
+        print(content[0:4])
+        if content[0:5]== 'reply' and ':' in content:
+            tmp=content.split(':', 1)[0]
+            comment=content.split(':', 1)[1]
+            replied=tmp.split(' ',1)[1]
+        else:
+            comment=content
+        return replied,comment
+
+
+    def addstar(self,commentid,add):
+        comment = Comment.query.filter(Comment.projectid == self.pid,Comment.id==commentid).first()
+        comment.star+=add
+        db.session.commit()
+        return 1
 
 
 class MycollectClass:
-    def __init__(self, email):
-        self.email = email
+    def mycollect(self,userid):
+        mycollect=Collect.query.filter(Collect.id == userid).all()
+        return mycollect
 
-    def check_user(self, password):
-        error = None
-        user = User.query.filter(User.email == self.email).first()
-        if user is None:
-            error = "Incorrect username."
-        elif not check_password_hash(user.password, password):
-            error = "Incorrect password."
-        return error
+    def addcollect(self,userid,projetid):
+        mycollect=Collect.query.filter(Collect.id == userid).all()
+        return 1
 
-    def is_exit(self):
-        if User.query.filter(User.email == self.email).first() is not None:
-            return True
+    def deletecollect(self,userid,projetid):
+        mycollect=Collect.query.filter(Collect.id == userid).all()
+        return 1
+
+class LikeClass:
+    def like(self, commentid, userid, projectid,add):
+        if add == 1:
+            db.session.add(Like(commentid=commentid, userid=userid,projectid=projectid))
+            db.session.commit()
         else:
-            return False
+            like = Like.query.filter(Like.commentid == commentid, Like.userid == userid,Like.projectid==projectid).first()
+            db.session.delete(like)
+            db.session.commit()
+        return 1
 
-    def register(self,name,password):
-        db.session.add(User(name=name, email=self.email, password=generate_password_hash(password)))
-        db.session.commit()
-
-    def getid(self):
-        user = User.query.filter(User.email == self.email).first()
-        return user.id
+    def getlike(self, projectid,userid):
+        likes = Like.query.filter(Like.projectid == projectid,Like.userid==userid).all()
+        return likes

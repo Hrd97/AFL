@@ -2,7 +2,7 @@ from flask import render_template, redirect, flash, request, session, url_for, a
 # 导入表单处理方法
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ..cLass import UserClass
+from ..cLass import UserClass,MycollectClass
 from . import bp_auth
 
 @bp_auth.route('/', methods=['GET', 'POST'])
@@ -17,7 +17,7 @@ def welcome():
     #return "ok"
     #return render_template('mainpage.html')
     #return redirect(url_for('auth.login'))
-    session["user_id"] = 100
+    session["user_id"] = 9
     # basedir = os.path.abspath(os.path.dirname(__file__))
     # maindir = os.path.dirname(basedir)
     # pdir = os.path.dirname(maindir)
@@ -91,6 +91,22 @@ def forgot():
         return redirect(url_for("auth.login"))
 
     return render_template('auth/pages-forget.html')
+
+
+
+@bp_auth.route('/user/profile', methods=['GET', 'POST'])
+def profile():
+    user = UserClass.getfromid(session["user_id"])
+    userinfo=user.myprofile()
+
+    return render_template('auth/profile.html',user=userinfo)
+
+@bp_auth.route('/user/mycollect', methods=['GET', 'POST'])
+def mycollect():
+    mycollect = MycollectClass()
+    project=mycollect.mycollect(session["user_id"])
+
+    return render_template('project/mycollect.html',projects=project)
 
 # smtpserver = "smtp.qq.com"
 # smtpport = 465

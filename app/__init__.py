@@ -17,6 +17,9 @@ def create_app():
 
     from .project import bp_project
     app.register_blueprint(bp_project, url_prfix='/project')
+
+    from .public import bp_public
+    app.register_blueprint(bp_public, url_prfix='/public')
     #
     # from .publicproject import bp_testresult
     # app.register_blueprint(bp_testresult, url_prfix='/publicproject')
