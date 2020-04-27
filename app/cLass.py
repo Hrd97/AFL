@@ -265,7 +265,9 @@ class CommentClass:
                                repliedname=repliedname,
                                star=0))
         db.session.commit()
-        return 0
+
+        comments = Comment.query.filter(Comment.projectid == self.pid,Comment.username==username,Comment.content==content).first()
+        return comments.id
 
     def split(self,content):
         replied=''

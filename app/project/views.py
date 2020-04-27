@@ -199,13 +199,13 @@ def comment():
     content=data['comment']
     repliedname=None
 
-
     reply={}
     reply['date']=dtime
     reply['username']=data['username']
     reply['replied'],reply['content']=comment.split(data['comment'])
-
-    comment.savecomment(data['username'], reply['content'], reply['replied'])
+    reply['commentid'] =comment.savecomment(data['username'], reply['content'], reply['replied'])
+    reply['userid'] = session["user_id"]
+    reply['projectid'] = data['projectid']
 
     return reply
 

@@ -426,7 +426,6 @@
 
 }
 function reply(pid) {
-
         var td = event.srcElement; // 通过event.srcElement 获取激活事件的对象 td
         var comment=document.getElementById('reply')
         var username=document.getElementById('username')
@@ -451,9 +450,19 @@ function reply(pid) {
         success:function (data) {
             comment.value="";
            var commentdiv=document.getElementById('comment');
+
            if (data['replied']!=''){
                var str=" <div class=\"alert alert-info\" role=\"alert\">\n" +
-                    " <a href=\"\"><i class=\"fa fa-thumbs-o-up\" style= \"float: right\">0</i></a>\n" +
+                    "<i class=\"fa fa-thumbs-o-up\" style= \"float: right\" " +
+                   "onclick=\"change("+
+                   data['commentid']
+                   +"," +
+                   data['userid']
+                   +","+
+                   data['projectid']
+                   +")\">"+
+                   "0"
+                   +"</i>" +
                     " <a style=\"float: right;color: #00aced\" onclick=\"replyother('"+
                         data['username'] +
                     " ')\"> Reply &nbsp;&nbsp;&nbsp;</a>\n" +
@@ -473,7 +482,16 @@ function reply(pid) {
                     " </div>\n"
            }else {
                     var   str=" <div class=\"alert alert-info\" role=\"alert\">\n" +
-                    " <a href=\"\"><i class=\"fa fa-thumbs-o-up\" style= \"float: right\">0</i></a>\n" +
+                    "<i class=\"fa fa-thumbs-o-up\" style= \"float: right\" " +
+                       "onclick=\"change("+
+                       data['commentid']
+                       +"," +
+                       data['userid']
+                       +","+
+                       data['projectid']
+                       +")\">"+
+                       "0"
+                       +"</i>" +
                     " <a style=\"float: right;color: #00aced\" onclick=\"replyother('"+
                         data['username'] +
                     " ')\"> Reply &nbsp;&nbsp;&nbsp;</a>\n" +

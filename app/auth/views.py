@@ -17,7 +17,7 @@ def welcome():
     #return "ok"
     #return render_template('mainpage.html')
     #return redirect(url_for('auth.login'))
-    session["user_id"] = 9
+    session["user_id"] = 100
     # basedir = os.path.abspath(os.path.dirname(__file__))
     # maindir = os.path.dirname(basedir)
     # pdir = os.path.dirname(maindir)
