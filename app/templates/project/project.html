@@ -245,6 +245,7 @@
                                             <th>UPLOADTIME</th>
                                             <th>VISABILIYT</th>
                                             <th>STATUS</th>
+                                            <th>UPLOADFILE</th>
                                             <th>RESULT</th>
                                             <th>OPERATION</th>
                                             <th>DELETE</th>
@@ -266,6 +267,15 @@
                                                 {% endif %}
                                             </td>
                                             <td><span class="name">{{project.status}}</span></td>
+
+                                             <td>
+                                                <button type="button" class="badge badge-complete" data-toggle="modal"
+                                                        data-target="#runModal"
+                                                        onclick="getrow({{ loop.index }})">
+                                                UPLOADFILE
+                                                </button>
+                                            </td>
+
                                             <td>
                                                  {% if project.status == 'initial' %}
                                                     <form action="" method="post">

@@ -6,7 +6,7 @@ class User(db.Model):
     name = db.Column(db.CHAR(50),unique=True)
     email = db.Column(db.CHAR(50))
     password = db.Column(db.VARCHAR(100))
-
+    desc = db.Column(db.VARCHAR(500))
 
 class Project(db.Model):
     __tablename__ = 'project'

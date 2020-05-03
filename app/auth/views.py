@@ -16,8 +16,8 @@ def welcome():
     #return render_template('mainpage.html',doctorlist=doctorlist,notice=notice)
     #return "ok"
     #return render_template('mainpage.html')
-    #return redirect(url_for('auth.login'))
-    session["user_id"] = 100
+    return redirect(url_for('auth.login'))
+    #session["user_id"] = 100
     # basedir = os.path.abspath(os.path.dirname(__file__))
     # maindir = os.path.dirname(basedir)
     # pdir = os.path.dirname(maindir)
@@ -28,7 +28,7 @@ def welcome():
     # print(user.getpath())
     #return redirect(url_for('auth.login'))
     #return send_file('index.html')
-    return redirect(url_for('project.homepage'))
+    #return redirect(url_for('project.homepage'))
 
 @bp_auth.route('/login', methods=['GET', 'POST'])
 def login():

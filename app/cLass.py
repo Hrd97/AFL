@@ -40,6 +40,8 @@ class UserClass:
         db.session.add(User(name=name, email=self.email, password=generate_password_hash(password)))
         db.session.commit()
 
+        return None
+
     def getid(self):
         user = User.query.filter(User.email == self.email).first()
         print(user.id)

@@ -23,6 +23,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
 
+
     <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/style.css') }}"/>
     <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/cs-skin-elastic.css') }}"/>
 
@@ -193,30 +194,15 @@
 
         <div class="breadcrumbs">
             <div class="breadcrumbs-inner">
-                <div class="row m-0">
-                    <div class="col-sm-4">
-                        <div class="page-header float-left">
-                            <div class="page-title">
-                                <h1>Dashboard</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-8">
-                        <div class="page-header float-right">
-                            <div class="page-title">
-                                <ol class="breadcrumb text-right">
-                                    <li><a href="#">Dashboard</a></li>
-                                    <li><a href="#">Map</a></li>
-                                    <li class="active">Vector map</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
+                <div style="text-align: center">
+                     <h3>Path Detail</h3>
                 </div>
+
+
             </div>
         </div>
 
-        <<div class="content">
+        <div class="content">
             <div class="animated fadeIn">
              <div class="row">
 
@@ -226,11 +212,29 @@
                         <div class="card-header" style="text-align: center;background-color: #00aced">
                             <h4>Case List</h4>
                         </div>
-                        <div style="text-align: center">
-                            <span>sdfg</span><br>
-                            <span>sdfg</span>
-                            <span>sdfg</span>
-
+                        <div class="card-body">
+                            <ul style="text-align: center">
+                                <a>id:000001,src:000000,op:havoc,rep:4,+cov</a><br>
+                                <a>id:000002,src:000000,op:havoc,rep:8,+cov</a><br>
+                                <a>id:000003,src:000000,op:havoc,rep:12,+cov</a><br>
+                            </ul>
+{#                                <table  id="table">#}
+{#                                    <thead>#}
+{#                                        <tr>#}
+{##}
+{#                                            <th>Case ID</th>#}
+{##}
+{#                                        </tr>#}
+{#                                    </thead>#}
+{#                                    <tbody>#}
+{#                                        <tr>#}
+{##}
+{#                                            <td >ID:000000</td>#}
+{##}
+{#                                        </tr>#}
+{##}
+{#                                    </tbody>#}
+{#                                </table>#}
                         </div>
                     </div>
                 </div>
@@ -241,38 +245,27 @@
                         </div>
                          <div class="card-body" style="text-align: center">
 <!--                            <textarea style=" width:100%;height:100%:border:0none;outline:none;"></textarea>-->
-                            <span>dsghrdtjfgnjdbsfiauhojpkefl;wmrgndfi;jopsalfk;ghioadlsmknfiokpad;'lmnf/b;ho'izp
-                            ojdslnfsk;owie'aps[fipkw;'lnohgipaorudi
-                            [ks;lmfnkvhoigprouw;feklsdmnohipeu9rofq;klemalknsfpi'</span>
+                            <span>�|i��� �   �  ����������΄������(������ ��� �����4R� �����  ���4L444444444444$44444444444����(
+                                ��dsfdagiuldsbjkvhjgiuaosjbkfdhvohuiasjbkdhsvoianljbdhvodsfdagiuldsbjkvhjgiuaosjbkfdhvohuiasjbkdhsvoianljbdhvo
+                                dsfdagiuldsbjkvhjgiuaosjbkfdhvohuiasjbkdhsvoianljbdhvodsfdagiuldsbjkvhjgiuaosjbkfdhvohuiasjbkdhsvoianljbdhvodsfdagiu
+                                ldsbjkvhjgiuaosjbkfdhvohuiasjbkdhsvoianljbdhvodsfdagiuldsbjkvhjgiuaosjbkfdhvohuiasjbkdhsvoianljbdhvodsfdagiuldsbjkvh
+                                jgiuaosjbkfdhvohuiasjbkdhsvoianljbdhvodsfdagiuldsbjkvhjgiuaosjbkfdhvohuiasjbkdhsvoianljbdhvodsfdagiuldsbjkvhjgiuaosjbk
+                                fdhvohuiasjbkdhsvoianljbdhvo</span>
                         </div>
                     </div>
                 </div>
                  <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header" style="text-align: center;background-color: #d61f1f">
-                            <h4>Falme graph</h4>
+                        <div class="card-header" style="text-align: center">
+                            <h4>Path Coverage Download</h4>
                         </div>
                         <div class="card-body" style="text-align: center">
 <!--                            <textarea style=" width:100%;height:100%:border:0none;outline:none;"></textarea>-->
-                            <span>dsghrdtjfgnjdbsfiauhojpkefl;wmrgndfi;jopsalfk;ghioadlsmknfiokpad;'lmnf/b;ho'izp
-                            ojdslnfsk;owie'aps[fipkw;'lnohgipaorudi
-                            [ks;lmfnkvhoigprouw;feklsdmnohipeu9rofq;klemalknsfpi'</span>
+                            <button type="submit" class="btn btn-primary" onclick="">Download</button>
                         </div>
                     </div>
                 </div>
-                 <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-header" style="text-align: center;background-color: #ffb22b">
-                            <h4>Case content</h4>
-                        </div>
-                         <div class="card-body" style="text-align: center">
-<!--                            <textarea style=" width:100%;height:100%:border:0none;outline:none;"></textarea>-->
-                            <span>dsghrdtjfgnjdbsfiauhojpkefl;wmrgndfi;jopsalfk;ghioadlsmknfiokpad;'lmnf/b;ho'izp
-                            ojdslnfsk;owie'aps[fipkw;'lnohgipaorudi
-                            [ks;lmfnkvhoigprouw;feklsdmnohipeu9rofq;klemalknsfpi'</span>
-                        </div>
-                    </div>
-                </div>
+
                 <!-- /# column -->
             </div>
             <!-- /# row -->
